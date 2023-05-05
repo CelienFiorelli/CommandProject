@@ -6,9 +6,9 @@ const server = "http://192.168.43.170:5000";
 
 type ProductsAPIParams = Promise<any[] | null>;
 
-const getProducts = async (model: String): ProductsAPIParams => {
+export const getProducts = async (model: String): ProductsAPIParams => {
     try {
-        const data = await axios.get(server + '/get/' + (model == "*" ? "products" : model));
+        const data = await axios.get(`${server}/get/${model}`);
         return data.data;
     } catch (error) {
         console.log(error);
@@ -17,7 +17,7 @@ const getProducts = async (model: String): ProductsAPIParams => {
 
 type AllProductsAPIParams = Promise<{ Boissons: any[] | null, Burgers: any[] | null, Menus: any[] | null }>;
 
-const getAllProducts = async (): AllProductsAPIParams => {
+export const getAllProducts = async (): AllProductsAPIParams => {
     try {
         const data = await axios.get(server + '/get/products');
         return data.data;
@@ -26,7 +26,7 @@ const getAllProducts = async (): AllProductsAPIParams => {
     }
 }
 
-const login = async (email: String, password: String) => {
+export const login = async (email: String, password: String) => {
     try {
         const data = await axios.get(server + '/login', {params: {email: email, password: password}});
         return data.data.token;
@@ -35,7 +35,7 @@ const login = async (email: String, password: String) => {
     }
 }
 
-const registerUser = async (email: String, password: String, firstname: String, lastname: String) => {
+export const registerUser = async (email: String, password: String, firstname: String, lastname: String) => {
     try {
         const data = await axios.post(server + '/register', null, {params: {email: email, password: password, firstname: firstname, lastname: lastname}});
         return data.data.token;
@@ -44,7 +44,7 @@ const registerUser = async (email: String, password: String, firstname: String, 
     }
 }
 
-const getUser = async (token: string) => {
+export const getUser = async (token: string) => {
     try {
         const data = await axios.get(server + '/get/user', {params: {token: token}});
         return data.data.user;
@@ -53,5 +53,23 @@ const getUser = async (token: string) => {
     }
 }
 
+export const updateShoppingCart = async (token: string, productId: string, number: number) => {
+    try {
+        await axios.post(server + '/shopping/update', null, {params: {token: token, id_product: productId, number: number}});
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-export { server, getProducts, ProductsAPIParams, getAllProducts, AllProductsAPIParams, login, registerUser, getUser };
+export const getShoppingCartItems = async (token: string) => {
+    try {
+        const data = await axios.get(server + '/shoppings/get', {params: { token: token }});
+        if (data.data.status == 200) return data.data.data
+        else null
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+export { server, ProductsAPIParams, AllProductsAPIParams };

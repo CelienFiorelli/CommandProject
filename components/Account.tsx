@@ -68,7 +68,7 @@ function Account({ navigation }) {
                     </Text>
                 </Pressable>
             </>
-            : <View>Déjà connecté</View>}
+            : <View><Text>Déjà connecté</Text></View>}
         </>
     );
 

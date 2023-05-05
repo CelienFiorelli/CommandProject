@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Pressable, Text, StyleSheet, View, Button, Image, ScrollView } from "react-native";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { RouteProp } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { server, AllProductsAPIParams, getAllProducts } from "../utils/api";
+import { server, AllProductsAPIParams, getAllProducts, updateShoppingCart } from "../utils/api";
 import Spinner from 'react-native-loading-spinner-overlay';
+import { ctx } from "./UserContext";
 
 interface ProductsParams {
     filter: 'menu' | 'boisson' | '*';
@@ -23,6 +24,7 @@ function AllProducts({ navigation, route }: Props) {
     const [loading, setLoading]: [boolean, React.Dispatch<any>] = useState(products == null);
 
     const [selectItem, setSelectItem] = useState(null);
+    const {token, setToken} = useContext(ctx);
 
     useEffect(() => {
         (async () => {
@@ -33,8 +35,12 @@ function AllProducts({ navigation, route }: Props) {
         })();
     }, [])
 
-    const displayDetails = (item) => {
-        setSelectItem(item)
+    const order = (number: number) => {
+        if (token){
+            updateShoppingCart(token, selectItem._id, number);
+            setSelectItem(null);
+        }
+        else navigation.navigate("Account")
     }
 
     return (
@@ -56,18 +62,18 @@ function AllProducts({ navigation, route }: Props) {
                     </Pressable>
                 </View>
             </View>
-            <View style={{ position: "relative"}}>
+            <View style={{ position: "relative", display: "flex", flex: 1}}>
                 <ScrollView>
                     {products && Object.entries(products).filter(t => t[1].length).map(t =>
                         <View key={t[0]} style={{marginBottom: 16}}>
                             <Text style={{fontSize: 32, marginLeft: 16}}>{t[0]}</Text>
                             <ScrollView horizontal={true} style={[defaultStyle.defaultBorder, {backgroundColor: "#202020", marginHorizontal: 8}]}>
                                 {t[1].map(p =>
-                                <Pressable key={p._id} onPress={() => displayDetails(p)}>
-                                    <View style={{flexDirection: "column", alignItems: "center", margin: 8, padding: 4, borderColor: "#00000064", borderWidth: 1}}>
-                                        {p.image && <Image style={{ width: 200, height: 150 }} source={{ uri: `${server}${p.image}` }} />}
-                                        <Text>{p.name}</Text>
-                                        <Text>{p.price.$numberDecimal} €</Text>
+                                <Pressable key={p._id} onPress={() => setSelectItem(p.product)}>
+                                    <View style={{flexDirection: "column", alignItems: "center", margin: 8, padding: 4}}>
+                                        {p.product.image && <Image style={{ width: 200, height: 150 }} source={{ uri: `${server}${p.product.image}` }} />}
+                                        <Text>{p.product.name}</Text>
+                                        <Text>{p.product.price.$numberDecimal} €</Text>
                                     </View>
                                 </Pressable>
                                 )}
@@ -84,7 +90,7 @@ function AllProducts({ navigation, route }: Props) {
                             <Text style={{textAlign: "center"}}>{selectItem.price.$numberDecimal} €</Text>
                         </View>
                         <View style={{marginTop: 16, display: "flex", flexDirection: "row", justifyContent: "center"}}>
-                            <Pressable style={defaultStyle.button}>
+                            <Pressable style={defaultStyle.button} onPress={() => { order(1) }}>
                                 <Fontisto name="shopping-basket-add" size={24} />
                                 <Text>Commander</Text>
                             </Pressable>
