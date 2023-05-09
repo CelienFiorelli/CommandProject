@@ -8,6 +8,7 @@ import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { server, getProducts, updateShoppingCart } from "../utils/api";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { ctx } from "./UserContext";
+import Toast from 'react-native-toast-message';
 
 interface ProductsParams {
     filter: 'menu' | 'boisson' | '*';
@@ -36,15 +37,24 @@ function Products({ navigation, route }: Props) {
     }, [])
 
     const order = (number: number) => {
-        if (token){
+        if (token) {
             updateShoppingCart(token, selectItem._id, number);
             setSelectItem(null);
+            Toast.show({
+                type: 'success',
+                text1: 'Commande enregisté',
+                text2: `${selectItem.name} a été ajouté au panier`
+            });
+            return;
         }
-        else navigation.navigate("Account")
+        return navigation.navigate("Account")
     }
 
     return (
         <View style={{ backgroundColor: "#303030", height: "100%" }}>
+            <View style={{ zIndex: 100, width: "100%", position: "absolute"}}>
+                <Toast />
+            </View>
             <View style={defaultStyle.header}>
                 <View style={{ alignItems: "flex-start" }}>
                     <Pressable style={defaultStyle.button} onPress={() => navigation.openDrawer()}>
@@ -56,7 +66,7 @@ function Products({ navigation, route }: Props) {
                     <Text style={{fontSize: 20}}>{ route.name }</Text>
                 </View>
                 <View style={{ alignItems: 'flex-end' }}>
-                    <Pressable style={defaultStyle.button} onPress={() => navigation.navigate("Orders")}>
+                    <Pressable style={defaultStyle.button} onPress={() => navigation.navigate("Orders")} disabled={token == null}>
                         <MaterialIcons name="shopping-cart" size={24} />
                         <Text>Panier</Text>
                     </Pressable>

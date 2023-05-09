@@ -16,7 +16,7 @@ function App(): JSX.Element {
 				<NavigationContainer>
 					<Stack.Navigator>
 						<Stack.Screen name={"GlobalViewScreen"} component={GlobalViewScreen} options={{ headerShown: false }} />
-						<Stack.Screen name={"Orders"} component={Orders} options={{ presentation: "modal" }} />
+						<Stack.Screen name={"Orders"} component={Orders} options={{ presentation: "modal", headerShown: false }} />
 						<Stack.Screen name={"Parameter"} component={Parameter} options={{ presentation: "modal" }} />
 					</Stack.Navigator>
 				</NavigationContainer>
