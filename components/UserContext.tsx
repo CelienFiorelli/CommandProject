@@ -1,4 +1,5 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface UserContextInterface {
     token: string | null;
@@ -12,6 +13,13 @@ const UserContext = createContext<UserContextInterface>({
 
 function UserProvider({children}): JSX.Element {
     const [token, setToken] = useState(null);
+
+    useEffect(() => {
+		(async () => {
+			const localToken = await AsyncStorage.getItem('token');
+			if (localToken) setToken(localToken);
+		})();
+	}, []);
 
     return (
         <UserContext.Provider value={{token, setToken}}>

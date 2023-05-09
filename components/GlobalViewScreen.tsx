@@ -18,12 +18,13 @@ function GlobalViewScreen() {
             tabBarActiveTintColor: '#009E27',
             tabBarInactiveBackgroundColor: "#202020",
             tabBarActiveBackgroundColor: "#202020",
+            tabBarStyle: { borderTopColor: "#009E27", borderTopWidth: 1}
         }} sceneContainerStyle={{backgroundColor: "#303030"}}>
             <Tab.Screen name="Home" component={Home}
                 options={{ tabBarLabel: 'Accueil', tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="home" color={color} size={size} />, headerShown: false }} />
             <Tab.Screen name="Products" component={ProductsFilter}
                 options={{ tabBarLabel: 'Produits', tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="food" color={color} size={size} />, headerShown: false }} />
-            <Tab.Screen name="Account" component={token ? () => <Profile token={token}/> : Account}
+            <Tab.Screen name="Account" component={token ? Profile : Account}
                 options={{ tabBarLabel: 'Profil', tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="account" color={color} size={size} />, headerShown: false }} />
         </Tab.Navigator>
     );

@@ -6,15 +6,13 @@ import {
     View,
     StyleSheet,
 } from "react-native";
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { login, registerUser } from "../utils/api";
 import { ctx } from "./UserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 function Account({ navigation }) {
-    let isLogin = false;
-
-    const {token, setToken} = useContext(ctx);
+    const { setToken } = useContext(ctx);
 
     const [register, setregister] = useState(false);
     const [formField, setFormField] = useState({
@@ -24,59 +22,51 @@ function Account({ navigation }) {
         firstname: null,
     });
 
-    const sendLogin = async (action: String) => {
-        if (action === "login") {
-            const token = await login(formField.email, formField.password);
-            setToken(token)
+    const sendLogin = async () => {
+        let token: string;
+        if (register) {
+            token = await registerUser(formField.email, formField.password, formField.firstname, formField.lastname);
         } else {
-            const token = await registerUser(formField.email, formField.password, formField.firstname, formField.lastname);
-            setToken(token)
+            token = await login(formField.email, formField.password);
         }
+        setToken(token)
+        AsyncStorage.setItem("token", token)
+        return navigation.navigate("Home")
     }
 
     return (
-        <>
-            <View style={{ alignItems: 'flex-end', margin: 12 }}>
-                <Pressable style={defaultStyle.settingButton} onPress={() => navigation.navigate("Parameter")}>
-                    <Ionicons name="settings-sharp" size={24} />
-                </Pressable>
-            </View>
-            {!isLogin
-            ? <>
-                <View style={defaultStyle.container}>
-                    <Text style={defaultStyle.title}>{register ? "S'inscrire" : "Se connecter"}</Text>
-                    <View style={defaultStyle.formContainer}>
-                        <TextInput placeholder="Email" autoCapitalize="none" keyboardType="email-address" autoComplete="email" style={defaultStyle.textInput} onChangeText={(text) => setFormField({...formField, email: text})} />
-                        {register &&
-                            <View style={{ display: "flex", flexDirection: "row" }}>
-                                <TextInput placeholder="Prénom" style={[defaultStyle.textInput, { flex: 1, marginRight: 8 }]} onChangeText={(text) => setFormField({...formField, firstname: text})} />
-                                <TextInput placeholder="Nom" style={[defaultStyle.textInput, { flex: 1, marginLeft: 8 }]} onChangeText={(text) => setFormField({...formField, lastname: text})} />
-                            </View>
-                        }
-                        <TextInput placeholder="Mot de passe" autoCapitalize="none" secureTextEntry={true} style={defaultStyle.textInput} onChangeText={(text) => setFormField({...formField, password: text})}/>
-
-                        <View style={{ alignItems: "center" }}>
-                            <Pressable style={defaultStyle.button} onPress={() => sendLogin(register ? "register" : "login")}>
-                                <Text>{register ? "Inscription" : "Connexion"}</Text>
-                            </Pressable>
+        <View style={{display: "flex", justifyContent: "center", height: "100%"}}>
+            <View style={defaultStyle.container}>
+                <Text style={defaultStyle.title}>{register ? "S'inscrire" : "Se connecter"}</Text>
+                <View style={defaultStyle.formContainer}>
+                    <TextInput placeholder="Email" autoCapitalize="none" keyboardType="email-address" autoComplete="email" style={defaultStyle.textInput} onChangeText={(text) => setFormField({...formField, email: text})} />
+                    {register &&
+                        <View style={{ display: "flex", flexDirection: "row" }}>
+                            <TextInput placeholder="Prénom" style={[defaultStyle.textInput, { flex: 1, marginRight: 8 }]} onChangeText={(text) => setFormField({...formField, firstname: text})} />
+                            <TextInput placeholder="Nom" style={[defaultStyle.textInput, { flex: 1, marginLeft: 8 }]} onChangeText={(text) => setFormField({...formField, lastname: text})} />
                         </View>
+                    }
+                    <TextInput placeholder="Mot de passe" autoCapitalize="none" secureTextEntry={true} style={defaultStyle.textInput} onChangeText={(text) => setFormField({...formField, password: text})}/>
+
+                    <View style={{ alignItems: "center" }}>
+                        <Pressable style={defaultStyle.button} onPress={() => sendLogin()}>
+                            <Text>{register ? "Inscription" : "Connexion"}</Text>
+                        </Pressable>
                     </View>
                 </View>
-                <Pressable style={{ alignItems: "center" }} onPress={() => setregister(!register)}>
-                    <Text style={{ textDecorationLine: "underline" }}>
-                        {register ? "J'ai déjà un compte" : "Créer un compte"}
-                    </Text>
-                </Pressable>
-            </>
-            : <View><Text>Déjà connecté</Text></View>}
-        </>
+            </View>
+            <Pressable style={{ alignItems: "center" }} onPress={() => setregister(!register)}>
+                <Text style={{ textDecorationLine: "underline" }}>
+                    {register ? "J'ai déjà un compte" : "Créer un compte"}
+                </Text>
+            </Pressable>
+        </View>
     );
 
 }
 
 const defaultStyle = StyleSheet.create({
     container: {
-        marginTop: 32,
         marginBottom: 16,
         paddingHorizontal: 32,
     },
@@ -117,13 +107,8 @@ const defaultStyle = StyleSheet.create({
         backgroundColor: "#009E27",
         alignItems: 'center',
         width: '50%',
-        marginBottom: 24
-    },
-    settingButton: {
-        borderRadius: 8,
-        backgroundColor: "#009E27",
-        alignItems: 'center',
-        padding: 4
+        marginBottom: 24,
+        paddingVertical: 8,
     }
 })
 

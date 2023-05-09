@@ -12,7 +12,7 @@ function ProductsFilter() {
     const Drawer = createDrawerNavigator();
 
     return (
-        <Drawer.Navigator screenOptions={{ headerShown: false, drawerActiveTintColor: "#009E27" }}>
+        <Drawer.Navigator screenOptions={{ headerShown: false, drawerActiveTintColor: "#009E27", drawerStyle: {borderRightWidth: 1, borderRightColor: "#009E27"} }}>
             <Drawer.Screen name="Tous les produits" component={AllProducts} initialParams={{ filter: "*"}}
                 options={{ drawerIcon: ({ color, size }) => <MaterialIcons name="restaurant-menu" color={color} size={size} /> }}/>
 

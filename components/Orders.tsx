@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Spinner from "react-native-loading-spinner-overlay/lib";
 
 function Orders({ navigation }) {
-    const {token, setToken} = useContext(ctx);
+    const {token} = useContext(ctx);
     const [products, setProducts] = useState(null);
     const [loading, setLoading]: [boolean, React.Dispatch<any>] = useState(products == null);
 
@@ -55,7 +55,7 @@ function Orders({ navigation }) {
             </View>
             <ScrollView>
                 {products && products.map(p =>
-                    <View key={p._id} style={defaultStyle.productContainer}>
+                    <View key={p.product._id} style={defaultStyle.productContainer}>
                         <Pressable style={defaultStyle.deleteButton} onPress={() => order(p.product._id, -p.quantity)}>
                             <Ionicons name="trash-outline" size={24} />
                         </Pressable>
