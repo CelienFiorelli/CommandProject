@@ -4,6 +4,7 @@ import { getUser } from "../utils/api";
 import { ctx } from "./UserContext";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import globalStyle from "../styles/globalStyle";
 
 function Profile({ navigation }) {
     const [user, setUser] = useState(null);
@@ -19,15 +20,15 @@ function Profile({ navigation }) {
 
     return (
         <View style={{ backgroundColor: "#303030", height: "100%" }}>
-            <View style={defaultStyle.header}>
+            <View style={globalStyle.header}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <View style={[defaultStyle.button, {marginRight: 16}]}>
+                    <View style={[globalStyle.buttonIcon, {marginRight: 16}]}>
                         <MaterialCommunityIcons name="account" size={24} />
                     </View>
                     <Text style={{fontSize: 20}}>{user ? `Bonjour ${user.firstname} ${user.lastname}` : ""}</Text>
                 </View>
                 <View>
-                    <Pressable style={defaultStyle.button2} onPress={() => navigation.navigate("Parameter")}>
+                    <Pressable style={globalStyle.buttonText} onPress={() => navigation.navigate("Parameter")}>
                         <Ionicons name="settings-sharp" size={24} />
                         <Text>Paramètre</Text>
                     </Pressable>
@@ -43,27 +44,6 @@ const defaultStyle = StyleSheet.create({
         backgroundColor: "#009E27",
         alignItems: 'center',
         padding: 4
-    },
-    button: {
-        borderRadius: 100,
-        paddingVertical: 2,
-        paddingHorizontal: 2,
-        backgroundColor: "#009E27",
-        alignItems: 'center',
-    },
-    button2: {
-        borderRadius: 8,
-        paddingVertical: 2,
-        paddingHorizontal: 8,
-        backgroundColor: "#009E27",
-        alignItems: 'center',
-    },
-    header: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: 16,
-        backgroundColor: "#202020",
     },
 })
 

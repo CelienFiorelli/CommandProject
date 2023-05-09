@@ -6,6 +6,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { server } from "../utils/api";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Spinner from "react-native-loading-spinner-overlay/lib";
+import globalStyle from "../styles/globalStyle";
 
 function Orders({ navigation }) {
     const {token} = useContext(ctx);
@@ -37,9 +38,9 @@ function Orders({ navigation }) {
 
     return (
         <View style={{ backgroundColor: "#303030", height: "100%" }}>
-            <View style={defaultStyle.header}>
+            <View style={globalStyle.header}>
                 <View>
-                    <Pressable style={defaultStyle.button} onPress={() => navigation.goBack()}>
+                    <Pressable style={globalStyle.buttonIcon} onPress={() => navigation.goBack()}>
                         <Ionicons name="chevron-back" size={24}/>
                     </Pressable>
                 </View>
@@ -47,7 +48,7 @@ function Orders({ navigation }) {
                     <Text style={{fontSize: 20}}>Votre commande</Text>
                 </View>
                 <View>
-                    <Pressable style={defaultStyle.button2}>
+                    <Pressable style={globalStyle.buttonText}>
                         <Ionicons name="card-outline" size={24} />
                         <Text>{products && products.reduce((partialSum, p) => partialSum + p.product.price.$numberDecimal * p.quantity, 0).toFixed(2)} €</Text>
                     </Pressable>
@@ -63,12 +64,12 @@ function Orders({ navigation }) {
                         <View style={{ display: "flex", flex: 1, alignItems: "center", justifyContent: "space-between", marginVertical: 32 }}>
                             <Text>{p.product.name}</Text>
                             <Text>{(p.product.price.$numberDecimal * p.quantity).toFixed(2)} €</Text>
-                            <View style={[{ flexDirection: "row", alignItems: "center"}, defaultStyle.defaultBorder]}>
-                                <Pressable style={p.quantity <= 1 ? defaultStyle.buttonDisabled : defaultStyle.button} disabled={p.quantity <= 1} onPress={() => order(p.product._id, -1)}>
+                            <View style={[{ flexDirection: "row", alignItems: "center"}, globalStyle.mainBorder]}>
+                                <Pressable style={p.quantity <= 1 ? defaultStyle.buttonDisabled : globalStyle.buttonIcon} disabled={p.quantity <= 1} onPress={() => order(p.product._id, -1)}>
                                     <Ionicons name="remove" size={24} />
                                 </Pressable>
                                 <Text style={{ marginHorizontal: 24 }}>{p.quantity}</Text>
-                                <Pressable style={defaultStyle.button} onPress={() => order(p.product._id, 1)}>
+                                <Pressable style={globalStyle.buttonIcon} onPress={() => order(p.product._id, 1)}>
                                     <Ionicons name="add" size={24} />
                                 </Pressable>
                             </View>
@@ -82,13 +83,6 @@ function Orders({ navigation }) {
 }
 
 const defaultStyle = StyleSheet.create({
-    header: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: 16,
-        backgroundColor: "#202020",
-    },
     productContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -100,20 +94,6 @@ const defaultStyle = StyleSheet.create({
         position: "relative",
         borderWidth: 1,
         margin: 8
-    },
-    button: {
-        borderRadius: 100,
-        paddingVertical: 2,
-        paddingHorizontal: 2,
-        backgroundColor: "#009E27",
-        alignItems: 'center',
-    },
-    button2: {
-        borderRadius: 8,
-        paddingVertical: 2,
-        paddingHorizontal: 8,
-        backgroundColor: "#009E27",
-        alignItems: 'center',
     },
     deleteButton: {
         borderRadius: 100,
@@ -133,11 +113,6 @@ const defaultStyle = StyleSheet.create({
         paddingHorizontal: 2,
         backgroundColor: "#303030",
         alignItems: 'center',
-    },
-    defaultBorder: {
-        borderRadius: 100,
-        borderColor: "#009E27",
-        borderWidth: 1,
     },
 });
 

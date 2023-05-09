@@ -9,6 +9,7 @@ import { server, AllProductsAPIParams, getAllProducts, updateShoppingCart } from
 import Spinner from 'react-native-loading-spinner-overlay';
 import { ctx } from "./UserContext";
 import Toast from 'react-native-toast-message';
+import globalStyle from "../styles/globalStyle";
 
 interface ProductsParams {
     filter: 'menu' | 'boisson';
@@ -56,9 +57,9 @@ function AllProducts({ navigation, route }: Props) {
             <View style={{ zIndex: 100, width: "100%", position: "absolute"}}>
                 <Toast />
             </View>
-            <View style={defaultStyle.header}>
+            <View style={globalStyle.header}>
                 <View style={{ alignItems: "flex-start" }}>
-                    <Pressable style={defaultStyle.button} onPress={() => navigation.openDrawer()}>
+                    <Pressable style={globalStyle.buttonText} onPress={() => navigation.openDrawer()}>
                         <AntDesign name="filter" size={24} />
                         <Text>Filtres</Text>
                     </Pressable>
@@ -67,7 +68,7 @@ function AllProducts({ navigation, route }: Props) {
                     <Text style={{ fontSize: 20 }}>{route.name}</Text>
                 </View>
                 <View style={{ alignItems: 'flex-end' }}>
-                    <Pressable style={defaultStyle.button} onPress={() => navigation.navigate("Orders")} disabled={token == null}>
+                    <Pressable style={globalStyle.buttonText} onPress={() => navigation.navigate("Orders")} disabled={token == null}>
                         <MaterialIcons name="shopping-cart" size={24} />
                         <Text>Panier</Text>
                     </Pressable>
@@ -78,7 +79,7 @@ function AllProducts({ navigation, route }: Props) {
                     {products && Object.entries(products).filter(t => t[1].length).map(t =>
                         <View key={t[0]} style={{ marginBottom: 16 }}>
                             <Text style={{ fontSize: 32, marginLeft: 16 }}>{t[0]}</Text>
-                            <ScrollView horizontal={true} style={[defaultStyle.defaultBorder, { backgroundColor: "#202020", marginHorizontal: 8 }]}>
+                            <ScrollView horizontal={true} style={[globalStyle.mainBorder, { backgroundColor: "#202020", marginHorizontal: 8 }]}>
                                 {t[1].map(p =>
                                     <Pressable key={p._id} onPress={() => setSelectItem(p.product)}>
                                         <View style={{ flexDirection: "column", alignItems: "center", margin: 8, padding: 4 }}>
@@ -95,13 +96,13 @@ function AllProducts({ navigation, route }: Props) {
                 </ScrollView>
                 {selectItem && <Pressable style={defaultStyle.popup} onPress={() => setSelectItem(null)}>
                     <Pressable>
-                        <View style={[defaultStyle.defaultBorder, { backgroundColor: "#202020", padding: 8 }]}>
+                        <View style={[globalStyle.mainBorder, { backgroundColor: "#202020", padding: 8 }]}>
                             {selectItem.image && <Image style={{ width: 200, height: 150 }} source={{ uri: `${server}${selectItem.image}` }} />}
                             <Text style={{ textAlign: "center", marginVertical: 8 }}>{selectItem.name}</Text>
                             <Text style={{ textAlign: "center" }}>{selectItem.price.$numberDecimal} €</Text>
                         </View>
                         <View style={{ marginTop: 16, display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                            <Pressable style={defaultStyle.button} onPress={() => { order(1) }}>
+                            <Pressable style={globalStyle.buttonText} onPress={() => { order(1) }}>
                                 <Fontisto name="shopping-basket-add" size={24} />
                                 <Text>Commander</Text>
                             </Pressable>
@@ -114,19 +115,6 @@ function AllProducts({ navigation, route }: Props) {
 }
 
 const defaultStyle = StyleSheet.create({
-    header: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        padding: 12,
-        backgroundColor: "#202020",
-    },
-    button: {
-        borderRadius: 8,
-        paddingVertical: 2,
-        paddingHorizontal: 8,
-        backgroundColor: "#009E27",
-        alignItems: 'center',
-    },
     productContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -136,11 +124,6 @@ const defaultStyle = StyleSheet.create({
         borderColor: "#009E27",
         borderWidth: 1,
         margin: 8
-    },
-    defaultBorder: {
-        borderRadius: 8,
-        borderColor: "#009E27",
-        borderWidth: 1,
     },
     popup: {
         position: "absolute",
