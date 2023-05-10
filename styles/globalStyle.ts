@@ -22,6 +22,14 @@ export default StyleSheet.create({
         backgroundColor: "#009E27",
         alignItems: 'center',
     },
+    buttonTextHorizontal: {
+        borderRadius: 8,
+        paddingVertical: 12,
+        paddingHorizontal: 8,
+        backgroundColor: "#009E27",
+        alignItems: 'center',
+        flexDirection: "row",
+    },
     mainBorder: {
         borderRadius: 8,
         borderColor: "#009E27",

@@ -4,14 +4,14 @@ import Home from "./Home";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Account from "./Account";
 import ProductsFilter from "./ProductsFilter";
-import { ctx } from "./UserContext";
+import { UserContext } from "./UserProvider";
 import Profile from "./Profile";
 
 
 function GlobalViewScreen() {
     const Tab = createBottomTabNavigator();
 
-    const {token, setToken} = useContext(ctx);
+    const { token } = useContext(UserContext);
     
     return (
         <Tab.Navigator screenOptions={{

@@ -7,7 +7,7 @@ import { RouteProp } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { server, getProducts, updateShoppingCart } from "../utils/api";
 import Spinner from 'react-native-loading-spinner-overlay';
-import { ctx } from "./UserContext";
+import { UserContext } from "./UserProvider";
 import Toast from 'react-native-toast-message';
 import globalStyle from "../styles/globalStyle";
 
@@ -26,7 +26,7 @@ function Products({ navigation, route }: Props) {
     const [loading, setLoading]: [boolean, React.Dispatch<any>] = useState(products == null);
 
     const [selectItem, setSelectItem] = useState(null);
-    const {token, setToken} = useContext(ctx);
+    const {token} = useContext(UserContext);
 
     useEffect(() => {
         (async () => {

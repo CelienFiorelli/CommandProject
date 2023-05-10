@@ -5,14 +5,15 @@ import GlobalViewScreen from "./components/GlobalViewScreen";
 import Orders from "./components/Orders";
 import Parameter from "./components/Parameter";
 import { SafeAreaView } from "react-native-safe-area-context";
-import UserProvider from "./components/UserContext";
+import UserProvider from "./components/UserProvider";
 import { SafeAreaView as SafeAreaViewNative } from "react-native";
 
 function App(): JSX.Element {
 	const Stack = createNativeStackNavigator();
+;
 
 	return (
-		// <SafeAreaViewNative style={{ flex: 1 }}>
+		<SafeAreaViewNative style={{ flex: 1 }}>
 			<SafeAreaView style={{ flex: 1, backgroundColor: "#202020" }}>
 				<UserProvider>
 					<NavigationContainer>
@@ -24,7 +25,7 @@ function App(): JSX.Element {
 					</NavigationContainer>
 				</UserProvider>
 			</SafeAreaView>
-		// </SafeAreaViewNative>
+		</SafeAreaViewNative>
 	);
 }
 

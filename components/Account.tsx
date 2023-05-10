@@ -7,14 +7,14 @@ import {
     StyleSheet,
 } from "react-native";
 import { login, registerUser } from "../utils/api";
-import { ctx } from "./UserContext";
+import { UserContext } from "./UserProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 function Account({ navigation }) {
-    const { setToken } = useContext(ctx);
+    const { login, register } = useContext(UserContext);
 
-    const [register, setregister] = useState(false);
+    const [isRegister, setIsRegister] = useState(false);
     const [formField, setFormField] = useState({
         email: null,
         password: null,
@@ -23,24 +23,21 @@ function Account({ navigation }) {
     });
 
     const sendLogin = async () => {
-        let token: string;
-        if (register) {
-            token = await registerUser(formField.email, formField.password, formField.firstname, formField.lastname);
+        if (isRegister) {
+            await register(formField.email, formField.password, formField.firstname, formField.lastname);
         } else {
-            token = await login(formField.email, formField.password);
+            await login(formField.email, formField.password);
         }
-        setToken(token)
-        AsyncStorage.setItem("token", token)
         return navigation.navigate("Home")
     }
 
     return (
         <View style={{display: "flex", justifyContent: "center", height: "100%"}}>
             <View style={defaultStyle.container}>
-                <Text style={defaultStyle.title}>{register ? "S'inscrire" : "Se connecter"}</Text>
+                <Text style={defaultStyle.title}>{isRegister ? "S'inscrire" : "Se connecter"}</Text>
                 <View style={defaultStyle.formContainer}>
                     <TextInput placeholder="Email" autoCapitalize="none" keyboardType="email-address" autoComplete="email" style={defaultStyle.textInput} onChangeText={(text) => setFormField({...formField, email: text})} />
-                    {register &&
+                    {isRegister &&
                         <View style={{ display: "flex", flexDirection: "row" }}>
                             <TextInput placeholder="Prénom" style={[defaultStyle.textInput, { flex: 1, marginRight: 8 }]} onChangeText={(text) => setFormField({...formField, firstname: text})} />
                             <TextInput placeholder="Nom" style={[defaultStyle.textInput, { flex: 1, marginLeft: 8 }]} onChangeText={(text) => setFormField({...formField, lastname: text})} />
@@ -50,14 +47,14 @@ function Account({ navigation }) {
 
                     <View style={{ alignItems: "center" }}>
                         <Pressable style={defaultStyle.button} onPress={() => sendLogin()}>
-                            <Text>{register ? "Inscription" : "Connexion"}</Text>
+                            <Text>{isRegister ? "Inscription" : "Connexion"}</Text>
                         </Pressable>
                     </View>
                 </View>
             </View>
-            <Pressable style={{ alignItems: "center" }} onPress={() => setregister(!register)}>
+            <Pressable style={{ alignItems: "center" }} onPress={() => setIsRegister(!isRegister)}>
                 <Text style={{ textDecorationLine: "underline" }}>
-                    {register ? "J'ai déjà un compte" : "Créer un compte"}
+                    {isRegister ? "J'ai déjà un compte" : "Créer un compte"}
                 </Text>
             </Pressable>
         </View>

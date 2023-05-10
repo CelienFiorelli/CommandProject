@@ -1,14 +1,15 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { ctx } from "./UserContext";
+import { UserContext } from "./UserProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { getUser } from "../utils/api";
 import globalStyle from "../styles/globalStyle";
 
 function Parameter({ navigation }) {
-    const {token, setToken} = useContext(ctx);
+    const {token, logout} = useContext(UserContext);
     const [user, setUser] = useState(null);
 
     useEffect(() => {
@@ -17,13 +18,6 @@ function Parameter({ navigation }) {
             setUser(data)
         })();
     }, [])
-
-    const logout = async () => {
-        setToken(null)
-        await AsyncStorage.removeItem('token');
-        return navigation.navigate("Account")
-    }
-
 
     return (
         <View style={{ backgroundColor: "#303030", height: "100%" }}>
@@ -36,7 +30,7 @@ function Parameter({ navigation }) {
                 <View>
                     <Text style={{fontSize: 20}}>Paramètres</Text>
                 </View>
-                <Pressable style={globalStyle.buttonText} onPress={() => logout()}>
+                <Pressable style={globalStyle.buttonText} onPress={() => {logout(); navigation.navigate("Account");}}>
                     <AntDesign name="logout" size={24} />
                     <Text>Déconnexion</Text>
                 </Pressable>
@@ -49,21 +43,23 @@ function Parameter({ navigation }) {
                         <Text>Prénom : {user.firstname}</Text>
                         <Text>Nom : {user.lastname}</Text>
                     </View>
-                    <View>
+                    <View style={{ marginTop: 32}}>
                         <Text style={{ fontSize: 32, marginLeft: 16 }}>modifier</Text>
-                        <Pressable style={globalStyle.buttonText}>
-                            <Text>Changer de mot de passe</Text>
-                        </Pressable>
-                        <Pressable style={globalStyle.buttonText}>
-                            <Text>Changer d'adresse email</Text>
-                        </Pressable>
+                        <View style={{ display: "flex", alignItems: "center"}}>
+                            <Pressable style={globalStyle.buttonTextHorizontal}>
+                                <Text style={{ marginRight: 16}}>Changer de mot de passe</Text>
+                                <MaterialCommunityIcons name="lock-reset" size={24} />
+                            </Pressable>
+                            <Pressable style={globalStyle.buttonTextHorizontal}>
+                                <Text style={{ marginRight: 16}}>Changer d'adresse email</Text>
+                                <MaterialCommunityIcons name="email-edit" size={24} />
+                            </Pressable>
+                        </View>
                     </View>
                 </View>
             }
         </View>
     );
 }
-
-const defaultStyle = StyleSheet.create({})
 
 export default Parameter;

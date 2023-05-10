@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { getUser } from "../utils/api";
-import { ctx } from "./UserContext";
+import { UserContext } from "./UserProvider";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import globalStyle from "../styles/globalStyle";
@@ -9,7 +9,7 @@ import globalStyle from "../styles/globalStyle";
 function Profile({ navigation }) {
     const [user, setUser] = useState(null);
 
-    const {token, setToken} = useContext(ctx);
+    const {token} = useContext(UserContext);
 
     useEffect(() => {
         (async () => {
@@ -25,7 +25,7 @@ function Profile({ navigation }) {
                     <View style={[globalStyle.buttonIcon, {marginRight: 16}]}>
                         <MaterialCommunityIcons name="account" size={24} />
                     </View>
-                    <Text style={{fontSize: 20}}>{user ? `Bonjour ${user.firstname} ${user.lastname}` : ""}</Text>
+                    <Text style={{fontSize: 20}}>{user && `${user.firstname} ${user.lastname}`}</Text>
                 </View>
                 <View>
                     <Pressable style={globalStyle.buttonText} onPress={() => navigation.navigate("Parameter")}>
@@ -37,14 +37,5 @@ function Profile({ navigation }) {
         </View>
     )
 }
-
-const defaultStyle = StyleSheet.create({
-    settingButton: {
-        borderRadius: 8,
-        backgroundColor: "#009E27",
-        alignItems: 'center',
-        padding: 4
-    },
-})
 
 export default Profile;

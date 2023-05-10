@@ -5,9 +5,9 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { RouteProp } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { server, AllProductsAPIParams, getAllProducts, updateShoppingCart } from "../utils/api";
+import { server, AllProductsAPIParams, getAllProducts, updateShoppingCart, getShoppingCartItems } from "../utils/api";
 import Spinner from 'react-native-loading-spinner-overlay';
-import { ctx } from "./UserContext";
+import { UserContext } from "./UserProvider";
 import Toast from 'react-native-toast-message';
 import globalStyle from "../styles/globalStyle";
 
@@ -26,14 +26,17 @@ function AllProducts({ navigation, route }: Props) {
     const [loading, setLoading]: [boolean, React.Dispatch<any>] = useState(products == null);
 
     const [selectItem, setSelectItem] = useState(null);
-    const { token, setToken } = useContext(ctx);
-
+    const [shoppingCartSize, setShoppingCartSize] = useState(null);
+    const { token } = useContext(UserContext);
+    
     useEffect(() => {
         (async () => {
+            
             if (!route.params?.filter) return;
             const data = await getAllProducts();
             setProducts(data)
             setLoading(false)
+            setShoppingCartSize((await getShoppingCartItems(token)).reduce((partialSum, p) => partialSum + p.quantity, 0));
         })();
     }, [])
 
@@ -68,10 +71,19 @@ function AllProducts({ navigation, route }: Props) {
                     <Text style={{ fontSize: 20 }}>{route.name}</Text>
                 </View>
                 <View style={{ alignItems: 'flex-end' }}>
-                    <Pressable style={globalStyle.buttonText} onPress={() => navigation.navigate("Orders")} disabled={token == null}>
-                        <MaterialIcons name="shopping-cart" size={24} />
-                        <Text>Panier</Text>
-                    </Pressable>
+                    {token &&
+                        <Pressable style={[globalStyle.buttonText, {position: "relative"}]} onPress={() => navigation.navigate("Orders")}>
+                            {shoppingCartSize &&
+                                <View style={{ position: "absolute", aspectRatio: 1/1, height: 20, right: -7, top: -7, borderRadius: 100, backgroundColor: "#FF0037", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <Text style={{ fontSize: 14}}>
+                                        {shoppingCartSize > 9 ? "+9" : shoppingCartSize}
+                                    </Text>
+                                </View>
+                            }
+                            <MaterialIcons name="shopping-cart" size={24} />
+                            <Text>Panier</Text>
+                        </Pressable>
+                    }
                 </View>
             </View>
             <View style={{ position: "relative", display: "flex", flex: 1 }}>

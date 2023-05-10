@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { getShoppingCartItems, updateShoppingCart } from "../utils/api";
-import { ctx } from "./UserContext";
+import { UserContext } from "./UserProvider";
 import { ScrollView } from "react-native-gesture-handler";
 import { server } from "../utils/api";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Spinner from "react-native-loading-spinner-overlay/lib";
 import globalStyle from "../styles/globalStyle";
 
-function Orders({ navigation }) {
-    const {token} = useContext(ctx);
+function Orders({ navigation, route }) {
+    const {token} = useContext(UserContext);
     const [products, setProducts] = useState(null);
     const [loading, setLoading]: [boolean, React.Dispatch<any>] = useState(products == null);
 
@@ -40,7 +40,7 @@ function Orders({ navigation }) {
         <View style={{ backgroundColor: "#303030", height: "100%" }}>
             <View style={globalStyle.header}>
                 <View>
-                    <Pressable style={globalStyle.buttonIcon} onPress={() => navigation.goBack()}>
+                    <Pressable style={globalStyle.buttonIcon} onPress={() => { navigation.goBack(); }}>
                         <Ionicons name="chevron-back" size={24}/>
                     </Pressable>
                 </View>
@@ -64,7 +64,7 @@ function Orders({ navigation }) {
                         <View style={{ display: "flex", flex: 1, alignItems: "center", justifyContent: "space-between", marginVertical: 32 }}>
                             <Text>{p.product.name}</Text>
                             <Text>{(p.product.price.$numberDecimal * p.quantity).toFixed(2)} €</Text>
-                            <View style={[{ flexDirection: "row", alignItems: "center"}, globalStyle.mainBorder]}>
+                            <View style={[globalStyle.mainBorder, { flexDirection: "row", alignItems: "center", borderRadius: 100}]}>
                                 <Pressable style={p.quantity <= 1 ? defaultStyle.buttonDisabled : globalStyle.buttonIcon} disabled={p.quantity <= 1} onPress={() => order(p.product._id, -1)}>
                                     <Ionicons name="remove" size={24} />
                                 </Pressable>
