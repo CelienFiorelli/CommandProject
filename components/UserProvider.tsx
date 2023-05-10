@@ -13,12 +13,13 @@ export const UserContext = createContext<UserContextInterface | null>(null);
 
 function UserProvider({children}): JSX.Element {
     const [token, setToken] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
 		(async () => {
 			const localToken = await AsyncStorage.getItem('token');
 			if (localToken) setToken(localToken);
-
+            setIsLoading(false)
 		})();
 	}, []);
 
@@ -40,11 +41,14 @@ function UserProvider({children}): JSX.Element {
         setToken(null)
     }
 
-    return (
-        <UserContext.Provider value={{token, login, logout, register}}>
-            {children}
-        </UserContext.Provider>
-    );
+    if (!isLoading) {
+        return (
+            <UserContext.Provider value={{token, login, logout, register}}>
+                {children}
+            </UserContext.Provider>
+        );
+    }
+    return null;
 }
 
 export default UserProvider;

@@ -5,36 +5,11 @@ import { UserContext } from "./UserProvider";
 import { ScrollView } from "react-native-gesture-handler";
 import { server } from "../utils/api";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Spinner from "react-native-loading-spinner-overlay/lib";
 import globalStyle from "../styles/globalStyle";
+import { ShoppingCartContext } from "./ShoppingCartProvider";
 
-function Orders({ navigation, route }) {
-    const {token} = useContext(UserContext);
-    const [products, setProducts] = useState(null);
-    const [loading, setLoading]: [boolean, React.Dispatch<any>] = useState(products == null);
-
-    useEffect(() => {
-        (async () => {
-            const data = await getShoppingCartItems(token);
-            setProducts(data);
-            setLoading(false)
-        })();
-    }, [])
-
-    const order = async (productId: string, number: number) => {
-        setProducts((products) => {
-            const editProducts = [...products];
-            const productIndex = products.indexOf(products.find(p => p.product._id == productId));
-            if (editProducts[productIndex].quantity + number <= 0) {
-                editProducts.splice(productIndex, 1)
-            } else {
-                editProducts[productIndex].quantity += number;
-            }
-            return editProducts;
-        });
-        
-        await updateShoppingCart(token, productId, number);
-    }
+function Orders({ navigation }) {
+    const { shoppingCart, order } = useContext(ShoppingCartContext);
 
     return (
         <View style={{ backgroundColor: "#303030", height: "100%" }}>
@@ -50,12 +25,12 @@ function Orders({ navigation, route }) {
                 <View>
                     <Pressable style={globalStyle.buttonText}>
                         <Ionicons name="card-outline" size={24} />
-                        <Text>{products && products.reduce((partialSum, p) => partialSum + p.product.price.$numberDecimal * p.quantity, 0).toFixed(2)} €</Text>
+                        <Text>{shoppingCart && shoppingCart.reduce((partialSum, p) => partialSum + p.product.price.$numberDecimal * p.quantity, 0).toFixed(2)} €</Text>
                     </Pressable>
                 </View>
             </View>
             <ScrollView>
-                {products && products.map(p =>
+                {shoppingCart && shoppingCart.map(p =>
                     <View key={p.product._id} style={defaultStyle.productContainer}>
                         <Pressable style={defaultStyle.deleteButton} onPress={() => order(p.product._id, -p.quantity)}>
                             <Ionicons name="trash-outline" size={24} />
@@ -77,7 +52,6 @@ function Orders({ navigation, route }) {
                 </View>
                 )}
             </ScrollView>
-            <Spinner visible={loading} textContent={'Chargement...'} textStyle={{color: "white"}} />
         </View>
     );
 }

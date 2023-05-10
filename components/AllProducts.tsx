@@ -10,6 +10,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { UserContext } from "./UserProvider";
 import Toast from 'react-native-toast-message';
 import globalStyle from "../styles/globalStyle";
+import { ShoppingCartContext } from "./ShoppingCartProvider";
 
 interface ProductsParams {
     filter: 'menu' | 'boisson';
@@ -26,23 +27,21 @@ function AllProducts({ navigation, route }: Props) {
     const [loading, setLoading]: [boolean, React.Dispatch<any>] = useState(products == null);
 
     const [selectItem, setSelectItem] = useState(null);
-    const [shoppingCartSize, setShoppingCartSize] = useState(null);
     const { token } = useContext(UserContext);
+    const { shoppingCart, order } = useContext(ShoppingCartContext);
     
     useEffect(() => {
         (async () => {
-            
             if (!route.params?.filter) return;
             const data = await getAllProducts();
             setProducts(data)
             setLoading(false)
-            setShoppingCartSize((await getShoppingCartItems(token)).reduce((partialSum, p) => partialSum + p.quantity, 0));
         })();
     }, [])
 
-    const order = (number: number) => {
+    const updateShoppingCart = (number: number) => {
         if (token) {
-            updateShoppingCart(token, selectItem._id, number);
+            order(selectItem._id, number);
             setSelectItem(null);
             Toast.show({
                 type: 'success',
@@ -73,10 +72,10 @@ function AllProducts({ navigation, route }: Props) {
                 <View style={{ alignItems: 'flex-end' }}>
                     {token &&
                         <Pressable style={[globalStyle.buttonText, {position: "relative"}]} onPress={() => navigation.navigate("Orders")}>
-                            {shoppingCartSize &&
+                            {shoppingCart &&
                                 <View style={{ position: "absolute", aspectRatio: 1/1, height: 20, right: -7, top: -7, borderRadius: 100, backgroundColor: "#FF0037", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                     <Text style={{ fontSize: 14}}>
-                                        {shoppingCartSize > 9 ? "+9" : shoppingCartSize}
+                                        {shoppingCart.reduce((partialSum, p) => partialSum + p.quantity, 0) > 9 ? "+9" : shoppingCart.reduce((partialSum, p) => partialSum + p.quantity, 0)}
                                     </Text>
                                 </View>
                             }
@@ -114,7 +113,7 @@ function AllProducts({ navigation, route }: Props) {
                             <Text style={{ textAlign: "center" }}>{selectItem.price.$numberDecimal} €</Text>
                         </View>
                         <View style={{ marginTop: 16, display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                            <Pressable style={globalStyle.buttonText} onPress={() => { order(1) }}>
+                            <Pressable style={globalStyle.buttonText} onPress={() => { updateShoppingCart(1) }}>
                                 <Fontisto name="shopping-basket-add" size={24} />
                                 <Text>Commander</Text>
                             </Pressable>
