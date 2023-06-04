@@ -1,8 +1,9 @@
 import axios from "axios";
 
 
-const server = "http://192.168.43.170:5000";
-// const server = "http://192.168.0.140:5000"; 
+// const server = "http://192.168.179.170:5000";
+// const server = "http://192.168.43.170:5000";
+const server = "http://192.168.0.140:5000"; 
 
 type ProductsAPIParams = Promise<any[] | null>;
 
@@ -71,5 +72,22 @@ export const getShoppingCartItems = async (token: string) => {
     }
 }
 
+export const getUsers = async (adminToken: string) => {
+    try {
+        const data = await axios.get(server + '/get/users', {params: {token: adminToken}});
+        if (data.data.status == 200) return data.data.users
+        else null
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateRole = async (adminToken: string, userId: string, role: string) => {
+    try {
+        await axios.post(server + '/update/role', null, {params: {token: adminToken, id_user: userId, role: role}});
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export { server, ProductsAPIParams, AllProductsAPIParams };

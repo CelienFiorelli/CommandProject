@@ -6,12 +6,13 @@ import Account from "./Account";
 import ProductsFilter from "./ProductsFilter";
 import { UserContext } from "./UserProvider";
 import Profile from "./Profile";
+import Gestion from "./Gestion";
 
 
 function GlobalViewScreen() {
     const Tab = createBottomTabNavigator();
 
-    const { token } = useContext(UserContext);
+    const { token, user } = useContext(UserContext);
     
     return (
         <Tab.Navigator screenOptions={{
@@ -26,6 +27,10 @@ function GlobalViewScreen() {
                 options={{ tabBarLabel: 'Produits', tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="food" color={color} size={size} />, headerShown: false }} />
             <Tab.Screen name="Account" component={token ? Profile : Account}
                 options={{ tabBarLabel: 'Profil', tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="account" color={color} size={size} />, headerShown: false }} />
+            {user && user.role == "admin" && 
+                <Tab.Screen name="Gestion" component={Gestion}
+                    options={{ tabBarLabel: 'Gestion', tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="account" color={color} size={size} />, headerShown: false }} />
+            }
         </Tab.Navigator>
     );
 }

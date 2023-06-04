@@ -6,9 +6,7 @@ import {
     View,
     StyleSheet,
 } from "react-native";
-import { login, registerUser } from "../utils/api";
 import { UserContext } from "./UserProvider";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 function Account({ navigation }) {
