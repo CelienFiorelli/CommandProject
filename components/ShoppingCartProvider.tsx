@@ -13,7 +13,7 @@ interface ShoppingCartContextInterface {
 export const ShoppingCartContext = createContext<any | null>(null);
 
 function ShoppingCartProvider({children}): JSX.Element {
-    const [shoppingCart, setShoppingCart] = useState(null);
+    const [shoppingCart, setShoppingCart] = useState([]);
     const {token} = useContext(UserContext)
 
     useEffect(() => {
@@ -24,22 +24,16 @@ function ShoppingCartProvider({children}): JSX.Element {
 	}, []);
 
     const order = async (productId: string, number: number) => {
-        setShoppingCart((shoppingCarts) => {
-            const editProducts = [...shoppingCarts];
-            const productIndex = shoppingCarts.indexOf(shoppingCarts.find(p => p.product._id == productId));
-            if (editProducts[productIndex].quantity + number <= 0) {
-                editProducts.splice(productIndex, 1)
-            } else {
-                editProducts[productIndex].quantity += number;
-            }
-            return editProducts;
-        });
-        
-        await updateShoppingCart(token, productId, number);
+        const newShoppingCart = await updateShoppingCart(token, productId, number);
+        setShoppingCart(newShoppingCart);
     }
 
+    const remove = () => {
+        setShoppingCart([]);
+    } 
+
     return (
-        <ShoppingCartContext.Provider value={{shoppingCart, order}}>
+        <ShoppingCartContext.Provider value={{shoppingCart, order, remove}}>
             {children}
         </ShoppingCartContext.Provider>
     );

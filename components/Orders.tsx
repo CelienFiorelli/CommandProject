@@ -7,12 +7,14 @@ import { server } from "../utils/api";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import globalStyle from "../styles/globalStyle";
 import { ShoppingCartContext } from "./ShoppingCartProvider";
+import PaymentForm from "./PaymentForm";
 
 function Orders({ navigation }) {
     const { shoppingCart, order } = useContext(ShoppingCartContext);
+    const [displayPayment, setDisplayPayment] = useState(false);
 
     return (
-        <View style={{ backgroundColor: "#303030", height: "100%" }}>
+        <View style={{ backgroundColor: "#303030", height: "100%", position: "relative" }}>
             <View style={globalStyle.header}>
                 <View>
                     <Pressable style={globalStyle.buttonIcon} onPress={() => { navigation.goBack(); }}>
@@ -23,7 +25,7 @@ function Orders({ navigation }) {
                     <Text style={{fontSize: 20}}>Votre commande</Text>
                 </View>
                 <View>
-                    <Pressable style={globalStyle.buttonText}>
+                    <Pressable style={globalStyle.buttonText} onPress={() => setDisplayPayment(true)}>
                         <Ionicons name="card-outline" size={24} />
                         <Text>{shoppingCart && shoppingCart.reduce((partialSum, p) => partialSum + p.product.price.$numberDecimal * p.quantity, 0).toFixed(2)} €</Text>
                     </Pressable>
@@ -52,6 +54,9 @@ function Orders({ navigation }) {
                 </View>
                 )}
             </ScrollView>
+            {displayPayment && <Pressable style={globalStyle.popup} onPress={() => setDisplayPayment(false)}>
+                <PaymentForm setDisplay={setDisplayPayment} amount={shoppingCart && shoppingCart.reduce((partialSum, p) => partialSum + p.product.price.$numberDecimal * p.quantity, 0).toFixed(2)}></PaymentForm>
+            </Pressable>}
         </View>
     );
 }

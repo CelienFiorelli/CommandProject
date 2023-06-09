@@ -72,7 +72,7 @@ function AllProducts({ navigation, route }: Props) {
                 <View style={{ alignItems: 'flex-end' }}>
                     {token &&
                         <Pressable style={[globalStyle.buttonText, {position: "relative"}]} onPress={() => navigation.navigate("Orders")}>
-                            {shoppingCart &&
+                            {shoppingCart && shoppingCart.reduce((partialSum, p) => partialSum + p.quantity, 0) > 0 &&
                                 <View style={{ position: "absolute", aspectRatio: 1/1, height: 20, right: -7, top: -7, borderRadius: 100, backgroundColor: "#FF0037", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                     <Text style={{ fontSize: 14}}>
                                         {shoppingCart.reduce((partialSum, p) => partialSum + p.quantity, 0) > 9 ? "+9" : shoppingCart.reduce((partialSum, p) => partialSum + p.quantity, 0)}

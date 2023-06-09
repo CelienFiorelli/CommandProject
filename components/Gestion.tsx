@@ -83,8 +83,8 @@ const defaultStyle = StyleSheet.create({
         borderColor: "#AA0008",
     },
     restorer: {
-        backgroundColor: "#FFD800",
-        borderColor: "#FFA800",
+        backgroundColor: "#008C43",
+        borderColor: "#00D954",
     },
     tag: {
         borderWidth: 2,

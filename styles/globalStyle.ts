@@ -35,4 +35,13 @@ export default StyleSheet.create({
         borderColor: "#009E27",
         borderWidth: 1,
     },
+    popup: {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#00000080",
+    }
 })

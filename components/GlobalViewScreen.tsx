@@ -2,11 +2,13 @@ import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "./Home";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Account from "./Account";
 import ProductsFilter from "./ProductsFilter";
 import { UserContext } from "./UserProvider";
 import Profile from "./Profile";
 import Gestion from "./Gestion";
+import RestorerOrder from "./RestorerOrder";
 
 
 function GlobalViewScreen() {
@@ -29,7 +31,11 @@ function GlobalViewScreen() {
                 options={{ tabBarLabel: 'Profil', tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="account" color={color} size={size} />, headerShown: false }} />
             {user && user.role == "admin" && 
                 <Tab.Screen name="Gestion" component={Gestion}
-                    options={{ tabBarLabel: 'Gestion', tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="account" color={color} size={size} />, headerShown: false }} />
+                    options={{ tabBarLabel: 'Gestion', tabBarIcon: ({ color, size }) => <MaterialIcons name="admin-panel-settings" color={color} size={size} />, headerShown: false }} />
+            }
+            {user && user.role == "restorer" && 
+                <Tab.Screen name="Commandes" component={RestorerOrder}
+                    options={{ tabBarLabel: 'Commandes', tabBarIcon: ({ color, size }) => <MaterialIcons name="admin-panel-settings" color={color} size={size} />, headerShown: false }} />
             }
         </Tab.Navigator>
     );

@@ -56,7 +56,9 @@ export const getUser = async (token: string) => {
 
 export const updateShoppingCart = async (token: string, productId: string, number: number) => {
     try {
-        await axios.post(server + '/shopping/update', null, {params: {token: token, id_product: productId, number: number}});
+        const data = await axios.post(server + '/shopping/update', null, {params: {token: token, id_product: productId, number: number}});
+        if (data.data.status == 200) return data.data.items
+        else null
     } catch (error) {
         console.log(error);
     }
@@ -89,5 +91,34 @@ export const updateRole = async (adminToken: string, userId: string, role: strin
         console.log(error);
     }
 }
+
+export const createPayment = async (token: string, amount: any, card: Number, expiration_card: string, crypto: Number) => {
+    try {
+        await axios.post(server + '/payment', null, {params: {token: token, card: card, expiration_card: expiration_card, amount: amount, crypto: crypto}});
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getOrders = async (restorerToken: string) => {
+    try {
+        const data = await axios.get(server + '/get/orders', {params: {token: restorerToken}});
+        if (data.data.status == 200) return data.data.data
+        else null
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateOrdersStatus = async (restorerToken: string, orderId: string, status: boolean) => {
+    try {
+        const data = await axios.post(server + '/update/status/orders', null, {params: {token: restorerToken, orderId: orderId, status: status }});
+        if (data.data.status == 200) return data.data.data
+        else null
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 export { server, ProductsAPIParams, AllProductsAPIParams };
