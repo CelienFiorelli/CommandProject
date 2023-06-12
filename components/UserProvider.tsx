@@ -31,7 +31,7 @@ function UserProvider({children}): JSX.Element {
 	}, []);
 
     
-    const register = async (email: string, password: string, firstname: string, lastname: string): Promise<string> => {
+    const register = async (email: string, password: string, firstname: string, lastname: string): Promise<string | null> => {
         const token_ = await registerUser(email, password, firstname, lastname);
         if (token_) {
             await AsyncStorage.setItem("token", token_)
@@ -39,8 +39,8 @@ function UserProvider({children}): JSX.Element {
         }
         return token_
     }
-    
-    const login = async (email: string, password: string): Promise<string> => {
+
+    const login = async (email: string, password: string): Promise<string | null> => {
         const token_ = await loginUser(email, password);
         if (token_) {
             await AsyncStorage.setItem("token", token_)

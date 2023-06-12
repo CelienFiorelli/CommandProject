@@ -26,10 +26,10 @@ function PaymentForm({ amount, setDisplay }) {
     return (
         <View style={[globalStyle.mainBorder, { backgroundColor: "#202020", padding: 8, width: "80%" }]}>
             <Text style={{ fontSize: 18}}>Paiement de la commande</Text>
-            <TextInput placeholder="Carte" style={[defaultStyle.textInput, {marginTop: 24}]} onChangeText={(text) => setFormField({...formField, card: text})} />
+            <TextInput placeholder="Carte" keyboardType="numeric" style={[defaultStyle.textInput, {marginTop: 24}]} onChangeText={(text) => setFormField({...formField, card: text})} />
             <View style={{ display: "flex", flexDirection: "row"}}>
                 <TextInput placeholder="Date d'expiration" style={[defaultStyle.textInput, {flex: 1, marginRight: 8 }]} onChangeText={(text) => setFormField({...formField, expiration_card: text})} />
-                <TextInput placeholder="Crypto" style={[defaultStyle.textInput, {flex: 1}]} onChangeText={(text) => setFormField({...formField, crypto: text})} />
+                <TextInput placeholder="Crypto" keyboardType="numeric" style={[defaultStyle.textInput, {flex: 1}]} onChangeText={(text) => setFormField({...formField, crypto: text})} />
             </View>
             <View style={{ alignItems: "center"}}>
                 <Pressable style={defaultStyle.button} onPress={() => submit()}>

@@ -40,7 +40,8 @@ export const login = async (email: String, password: String) => {
 export const registerUser = async (email: String, password: String, firstname: String, lastname: String) => {
     try {
         const data = await axios.post(server + '/register', null, {params: {email: email, password: password, firstname: firstname, lastname: lastname}});
-        return data.data.token;
+        if (data && data.data.status < 400) return data.data.token;
+        return null
     } catch (error) {
         console.log(error);
     }
@@ -105,7 +106,17 @@ export const getOrders = async (restorerToken: string) => {
     try {
         const data = await axios.get(server + '/get/orders', {params: {token: restorerToken}});
         if (data.data.status == 200) return data.data.data
-        else null
+        return null
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getUserOrders = async (token: string) => {
+    try {
+        const data = await axios.get(server + '/get/user/orders', {params: {token: token}});
+        if (data.data.status < 400) return data.data.data;
+        return null
     } catch (error) {
         console.log(error);
     }
