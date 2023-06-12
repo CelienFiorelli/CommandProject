@@ -35,7 +35,7 @@ function Account({ navigation }) {
     return (
         <View style={{display: "flex", justifyContent: "center", height: "100%"}}>
             <View style={defaultStyle.container}>
-                <Text style={defaultStyle.title}>{isRegister ? "S'inscrire" : "Se connecter"}</Text>
+                <Text style={[defaultStyle.title, { color: "white"}]}>{isRegister ? "S'inscrire" : "Se connecter"}</Text>
                 <View style={defaultStyle.formContainer}>
                     <TextInput placeholder="Email" autoCapitalize="none" keyboardType="email-address" autoComplete="email" style={defaultStyle.textInput} onChangeText={(text) => setFormField({...formField, email: text})} />
                     {isRegister &&
@@ -50,13 +50,13 @@ function Account({ navigation }) {
                     
                     <View style={{ alignItems: "center" }}>
                         <Pressable style={defaultStyle.button} onPress={() => sendLogin()}>
-                            <Text>{isRegister ? "Inscription" : "Connexion"}</Text>
+                            <Text style={{color: "white"}}>{isRegister ? "Inscription" : "Connexion"}</Text>
                         </Pressable>
                     </View>
                 </View>
             </View>
             <Pressable style={{ alignItems: "center" }} onPress={() => setIsRegister(!isRegister)}>
-                <Text style={{ textDecorationLine: "underline" }}>
+                <Text style={{ textDecorationLine: "underline", color: "white" }}>
                     {isRegister ? "J'ai déjà un compte" : "Créer un compte"}
                 </Text>
             </Pressable>

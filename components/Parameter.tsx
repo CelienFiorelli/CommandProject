@@ -24,23 +24,23 @@ function Parameter({ navigation }) {
             <View style={globalStyle.header}>
                 <View>
                     <Pressable style={globalStyle.buttonIcon} onPress={() => navigation.goBack()}>
-                        <Ionicons name="chevron-back" size={24}/>
+                        <Ionicons name="chevron-back" size={24} color={"white"} />
                     </Pressable>
                 </View>
                 <View>
-                    <Text style={{fontSize: 20}}>Paramètres</Text>
+                    <Text style={{fontSize: 20, color: "white"}}>Paramètres</Text>
                 </View>
                 <Pressable style={globalStyle.buttonText} onPress={() => {logout(); navigation.navigate("Account");}}>
-                    <AntDesign name="logout" size={24} />
-                    <Text>Déconnexion</Text>
+                    <AntDesign name="logout" size={24} color={"white"} />
+                    <Text style={{color: "white"}}>Déconnexion</Text>
                 </Pressable>
             </View>
             {user &&
                 <View>
-                    <Text style={{ fontSize: 32, marginLeft: 16 }}>Votre profil</Text>
-                    <Text>Email : {user.email}</Text>
-                    <Text>Prénom : {user.firstname}</Text>
-                    <Text>Nom : {user.lastname}</Text>
+                    <Text style={{ fontSize: 32, marginLeft: 16, color: "white" }}>Votre profil</Text>
+                    <Text style={{color: "white"}}>Email : {user.email}</Text>
+                    <Text style={{color: "white"}}>Prénom : {user.firstname}</Text>
+                    <Text style={{color: "white"}}>Nom : {user.lastname}</Text>
                 </View>
             }
         </View>

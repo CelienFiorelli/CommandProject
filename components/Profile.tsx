@@ -23,14 +23,14 @@ function Profile({ navigation }) {
             <View style={globalStyle.header}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <View style={[globalStyle.buttonIcon, {marginRight: 16}]}>
-                        <MaterialCommunityIcons name="account" size={24} />
+                        <MaterialCommunityIcons name="account" size={24} color={"white"} />
                     </View>
-                    <Text style={{fontSize: 20}}>{user && `${user.firstname} ${user.lastname}`}</Text>
+                    <Text style={{fontSize: 20, color: "white"}}>{user && `${user.firstname} ${user.lastname}`}</Text>
                 </View>
                 <View>
                     <Pressable style={globalStyle.buttonText} onPress={() => navigation.navigate("Parameter")}>
-                        <Ionicons name="settings-sharp" size={24} />
-                        <Text>Paramètre</Text>
+                        <Ionicons name="settings-sharp" size={24} color={"white"} />
+                        <Text style={{color: "white"}}>Paramètre</Text>
                     </Pressable>
                 </View>
             </View>

@@ -28,17 +28,17 @@ function RestorerOrder(props) {
 
     return (
         <View style={{ position: "relative", display: "flex", flex: 1}}>
-           <Text>Commande à préparer</Text>
+           <Text style={{color: "white"}}>Commande à préparer</Text>
            {orders && orders.map(o => 
             <View key={o._id} style={[globalStyle.mainBorder, {backgroundColor: "#202020", margin: 4}]}>
                 <View style={[globalStyle.mainBorder, {backgroundColor: "#202020", padding: 8, margin: 8}]}>
                     <View style={{backgroundColor: "#202020", display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: 8}}>
-                        <Text>{o.username}</Text>
-                        <Text>{dateFormat(o.creation_date, "dd/mm/yyyy H:MM:ss")}</Text>
+                        <Text style={{color: "white"}}>{o.username}</Text>
+                        <Text style={{color: "white"}}>{dateFormat(o.creation_date, "dd/mm/yyyy H:MM:ss")}</Text>
                     </View>
                     <View style={{backgroundColor: "black", borderRadius: 6, position: "relative"}}>
                         <View style={{ width: 100, height: 12, position: "absolute", left: "50%", transform: [{translateX: -50}], zIndex: 20, display: "flex", alignItems: "center", justifyContent: "center"}}>
-                            <Text style={{ fontSize: 12, height: 12, lineHeight: 13, zIndex: 20}}>{calcPercent(o) == 100 ? "Terminé" : `${calcPercent(o)}%` }</Text>
+                            <Text style={{ fontSize: 12, height: 12, lineHeight: 13, zIndex: 20, color: "white"}}>{calcPercent(o) == 100 ? "Terminé" : `${calcPercent(o)}%` }</Text>
                         </View>
                         <View style={{ backgroundColor: "#009E27", width: `${calcPercent(o)}%`, height: 12, borderRadius: 6, display: "flex", alignItems: "center"}}></View>
                     </View>
@@ -47,9 +47,9 @@ function RestorerOrder(props) {
                     {o.products && o.products.map(p => 
                         <View key={p._id} style={[globalStyle.mainBorder, {width: 180, paddingTop: 4, margin: 4, display: "flex", alignItems: "center"}]}>
                             <View style={[defaultStyle[p.finish ? "finish": "todo"], defaultStyle.tag]}>
-                                <Text>{p.finish ? "Terminé": "A faire"}</Text>
+                                <Text style={{color: "white"}}>{p.finish ? "Terminé": "A faire"}</Text>
                             </View>
-                            <Text>{p.product.name}</Text>
+                            <Text style={{color: "white"}}>{p.product.name}</Text>
                             {p.product.image && <Image style={{ width: 200, height: 150 }} source={{ uri: `${server}${p.product.image}` }} />}
                             <View style={{backgroundColor: "black", borderTopColor: "#009E27", borderTopWidth: 1, borderBottomLeftRadius: 6, borderBottomRightRadius: 6, width: "100%", marginTop: 16, display: "flex", alignItems: "center", paddingVertical: 8}}>
                                 <Pressable onPress={() => switchStatus(p._id, !p.finish)}>

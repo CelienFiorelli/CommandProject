@@ -23,16 +23,16 @@ function Gestion(props) {
 
     return (
         <View style={{ position: "relative", display: "flex", flex: 1}}>
-            <Text style={{ fontSize: 32, marginLeft: 16, marginBottom: 24 }}>Liste des utilisateurs</Text>
+            <Text style={{ fontSize: 32, marginLeft: 16, marginBottom: 24, color: "white" }}>Liste des utilisateurs</Text>
             <ScrollView>
                 <View style={{ display: "flex", flexWrap: "wrap", flexDirection: "row", justifyContent: "space-between" }}>
                     {users && users.map(u =>
                     <Pressable key={u._id} onPress={() => setSelectUser(u)} style={{width: "50%", display: "flex", alignItems: "center", marginBottom: 24}}>
                         <View style={[globalStyle.mainBorder, {backgroundColor: "#202020", width: "90%", padding: 8}]}>
-                            <Text style={{ fontSize: 18, fontWeight: "600" }}>{u.firstname} {u.lastname}</Text>
-                            <Text>{u.email}</Text>
+                            <Text style={{ fontSize: 18, fontWeight: "600", color: "white" }}>{u.firstname} {u.lastname}</Text>
+                            <Text style={{color: "white"}}>{u.email}</Text>
                             <View style={[defaultStyle[u.role], defaultStyle.tag]}>
-                                <Text style={{textTransform: "uppercase", fontSize: 10}}>{u.role}</Text>
+                                <Text style={{textTransform: "uppercase", fontSize: 10, color: "white"}}>{u.role}</Text>
                             </View>
                         </View>
                     </Pressable>
@@ -43,8 +43,8 @@ function Gestion(props) {
             {selectUser && <Pressable style={defaultStyle.popup} onPress={() => setSelectUser(null)}>
                 <Pressable>
                     <View style={[globalStyle.mainBorder, {backgroundColor: "#202020", padding: 24}]}>
-                        <Text style={{ fontSize: 24, fontWeight: "600" }}>{selectUser.firstname} {selectUser.lastname}</Text>
-                        <Text>{selectUser.email}</Text>
+                        <Text style={{ fontSize: 24, fontWeight: "600", color: "white" }}>{selectUser.firstname} {selectUser.lastname}</Text>
+                        <Text style={{color: "white"}}>{selectUser.email}</Text>
                         <SelectDropdown data={["user", "restorer"]}
                             defaultValue={selectUser.role}
                             buttonStyle={[globalStyle.mainBorder, { marginTop: 24}]}

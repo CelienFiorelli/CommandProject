@@ -62,25 +62,25 @@ function AllProducts({ navigation, route }: Props) {
             <View style={globalStyle.header}>
                 <View style={{ alignItems: "flex-start" }}>
                     <Pressable style={globalStyle.buttonText} onPress={() => navigation.openDrawer()}>
-                        <AntDesign name="filter" size={24} />
-                        <Text>Filtres</Text>
+                        <AntDesign name="filter" size={24} color={"white"} />
+                        <Text style={{color: "white"}}>Filtres</Text>
                     </Pressable>
                 </View>
                 <View style={{ justifyContent: "center" }}>
-                    <Text style={{ fontSize: 20 }}>{route.name}</Text>
+                    <Text style={{ fontSize: 20, color: "white" }}>{route.name}</Text>
                 </View>
                 <View style={{ alignItems: 'flex-end' }}>
                     {token &&
                         <Pressable style={[globalStyle.buttonText, {position: "relative"}]} onPress={() => navigation.navigate("Orders")}>
                             {shoppingCart && shoppingCart.reduce((partialSum, p) => partialSum + p.quantity, 0) > 0 &&
                                 <View style={{ position: "absolute", aspectRatio: 1/1, height: 20, right: -7, top: -7, borderRadius: 100, backgroundColor: "#FF0037", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                    <Text style={{ fontSize: 14}}>
+                                    <Text style={{ fontSize: 14, color: "white"}}>
                                         {shoppingCart.reduce((partialSum, p) => partialSum + p.quantity, 0) > 9 ? "+9" : shoppingCart.reduce((partialSum, p) => partialSum + p.quantity, 0)}
                                     </Text>
                                 </View>
                             }
-                            <MaterialIcons name="shopping-cart" size={24} />
-                            <Text>Panier</Text>
+                            <MaterialIcons name="shopping-cart" size={24} color={"white"} />
+                            <Text style={{color: "white"}}>Panier</Text>
                         </Pressable>
                     }
                 </View>
@@ -89,14 +89,14 @@ function AllProducts({ navigation, route }: Props) {
                 <ScrollView>
                     {products && Object.entries(products).filter(t => t[1].length).map(t =>
                         <View key={t[0]} style={{ marginBottom: 16 }}>
-                            <Text style={{ fontSize: 32, marginLeft: 16 }}>{t[0]}</Text>
+                            <Text style={{ fontSize: 32, marginLeft: 16, color: "white" }}>{t[0]}</Text>
                             <ScrollView horizontal={true} style={[globalStyle.mainBorder, { backgroundColor: "#202020", marginHorizontal: 8 }]}>
                                 {t[1].map(p =>
                                     <Pressable key={p._id} onPress={() => setSelectItem(p.product)}>
                                         <View style={{ flexDirection: "column", alignItems: "center", margin: 8, padding: 4 }}>
                                             {p.product.image && <Image style={{ width: 200, height: 150 }} source={{ uri: `${server}${p.product.image}` }} />}
-                                            <Text>{p.product.name}</Text>
-                                            <Text>{p.product.price.$numberDecimal} €</Text>
+                                            <Text style={{color: "white"}}>{p.product.name}</Text>
+                                            <Text style={{color: "white"}}>{p.product.price.$numberDecimal} €</Text>
                                         </View>
                                     </Pressable>
                                 )}
@@ -109,13 +109,13 @@ function AllProducts({ navigation, route }: Props) {
                     <Pressable>
                         <View style={[globalStyle.mainBorder, { backgroundColor: "#202020", padding: 8 }]}>
                             {selectItem.image && <Image style={{ width: 200, height: 150 }} source={{ uri: `${server}${selectItem.image}` }} />}
-                            <Text style={{ textAlign: "center", marginVertical: 8 }}>{selectItem.name}</Text>
-                            <Text style={{ textAlign: "center" }}>{selectItem.price.$numberDecimal} €</Text>
+                            <Text style={{ textAlign: "center", marginVertical: 8, color: "white" }}>{selectItem.name}</Text>
+                            <Text style={{ textAlign: "center", color: "white" }}>{selectItem.price.$numberDecimal} €</Text>
                         </View>
                         <View style={{ marginTop: 16, display: "flex", flexDirection: "row", justifyContent: "center" }}>
                             <Pressable style={globalStyle.buttonText} onPress={() => { updateShoppingCart(1) }}>
-                                <Fontisto name="shopping-basket-add" size={24} />
-                                <Text>Commander</Text>
+                                <Fontisto name="shopping-basket-add" size={24} color={"white"} />
+                                <Text style={{color: "white"}}>Commander</Text>
                             </Pressable>
                         </View>
                     </Pressable>

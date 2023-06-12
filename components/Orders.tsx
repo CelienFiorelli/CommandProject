@@ -18,16 +18,16 @@ function Orders({ navigation }) {
             <View style={globalStyle.header}>
                 <View>
                     <Pressable style={globalStyle.buttonIcon} onPress={() => { navigation.goBack(); }}>
-                        <Ionicons name="chevron-back" size={24}/>
+                        <Ionicons name="chevron-back" size={24} color={"white"}/>
                     </Pressable>
                 </View>
                 <View>
-                    <Text style={{fontSize: 20}}>Votre commande</Text>
+                    <Text style={{fontSize: 20, color: "white"}}>Votre commande</Text>
                 </View>
                 <View>
                     <Pressable style={globalStyle.buttonText} onPress={() => setDisplayPayment(true)}>
-                        <Ionicons name="card-outline" size={24} />
-                        <Text>{shoppingCart && shoppingCart.reduce((partialSum, p) => partialSum + p.product.price.$numberDecimal * p.quantity, 0).toFixed(2)} €</Text>
+                        <Ionicons name="card-outline" size={24} color={"white"} />
+                        <Text style={{color: "white"}}>{shoppingCart && shoppingCart.reduce((partialSum, p) => partialSum + p.product.price.$numberDecimal * p.quantity, 0).toFixed(2)} €</Text>
                     </Pressable>
                 </View>
             </View>
@@ -35,19 +35,19 @@ function Orders({ navigation }) {
                 {shoppingCart && shoppingCart.map(p =>
                     <View key={p.product._id} style={defaultStyle.productContainer}>
                         <Pressable style={defaultStyle.deleteButton} onPress={() => order(p.product._id, -p.quantity)}>
-                            <Ionicons name="trash-outline" size={24} />
+                            <Ionicons name="trash-outline" size={24} color={"white"} />
                         </Pressable>
                         {p.product.image && <Image style={{ width: 200, marginVertical: 8 }} source={{ uri: `${server}${p.product.image}` }} />}
                         <View style={{ display: "flex", flex: 1, alignItems: "center", justifyContent: "space-between", marginVertical: 32 }}>
-                            <Text>{p.product.name}</Text>
-                            <Text>{(p.product.price.$numberDecimal * p.quantity).toFixed(2)} €</Text>
+                            <Text style={{color: "white"}}>{p.product.name}</Text>
+                            <Text style={{color: "white"}}>{(p.product.price.$numberDecimal * p.quantity).toFixed(2)} €</Text>
                             <View style={[globalStyle.mainBorder, { flexDirection: "row", alignItems: "center", borderRadius: 100}]}>
                                 <Pressable style={p.quantity <= 1 ? defaultStyle.buttonDisabled : globalStyle.buttonIcon} disabled={p.quantity <= 1} onPress={() => order(p.product._id, -1)}>
-                                    <Ionicons name="remove" size={24} />
+                                    <Ionicons name="remove" size={24} color={"white"} />
                                 </Pressable>
-                                <Text style={{ marginHorizontal: 24 }}>{p.quantity}</Text>
+                                <Text style={{ marginHorizontal: 24, color: "white" }}>{p.quantity}</Text>
                                 <Pressable style={globalStyle.buttonIcon} onPress={() => order(p.product._id, 1)}>
-                                    <Ionicons name="add" size={24} />
+                                    <Ionicons name="add" size={24} color={"white"} />
                                 </Pressable>
                             </View>
                         </View>

@@ -20,11 +20,8 @@ function PaymentForm({ amount, setDisplay }) {
     });
 
     const submit = async () => {
-        if (!token || Object.values(formField).filter(v => v == null).length) {
-            console.log("ok");
-            
-            return
-        }
+        if (!token || Object.values(formField).filter(v => v == null).length) return
+        
         await createPayment(token, formField.fidelity, formField.card, formField.expiration_card, formField.crypto);
         setDisplay(false)
         remove();
@@ -54,12 +51,12 @@ function PaymentForm({ amount, setDisplay }) {
     return (
         <>
             <View style={[globalStyle.mainBorder, { backgroundColor: "#202020", padding: 8, width: "70%", marginBottom: 24 }]}>
-                <Text>Vous avez {user.fidelity} points de fidélité</Text>
+                <Text style={{color: "white"}}>Vous avez {user.fidelity} points de fidélité</Text>
                 <TextInput placeholder="Nombre de points à utiliser" keyboardType="numeric" style={[defaultStyle.textInput, {marginTop: 24}]} value={formField.fidelity} onChangeText={(text) => setFidelityAmount(text)} />
             </View>
 
             <View style={[globalStyle.mainBorder, { backgroundColor: "#202020", padding: 8, width: "80%" }]}>
-                <Text style={{ fontSize: 18}}>Paiement de la commande</Text>
+                <Text style={{ fontSize: 18, color: "white" }}>Paiement de la commande</Text>
                 <TextInput placeholder="Carte" keyboardType="numeric" style={[defaultStyle.textInput, {marginTop: 24}]} maxLength={13} onChangeText={(text) => setFormField({...formField, card: text})} />
                 <View style={{ display: "flex", flexDirection: "row"}}>
                     <TextInput placeholder="Date d'expiration" style={[defaultStyle.textInput, {flex: 1, marginRight: 8 }]} maxLength={5} onChangeText={(text) => setFormField({...formField, expiration_card: text})} />
@@ -67,7 +64,7 @@ function PaymentForm({ amount, setDisplay }) {
                 </View>
                 <View style={{ alignItems: "center"}}>
                     <Pressable style={defaultStyle.button} onPress={() => submit()}>
-                        <Text>Payer {price} €</Text>
+                        <Text style={{color: "white"}}>Payer {price} €</Text>
                     </Pressable>
                 </View>
             </View>

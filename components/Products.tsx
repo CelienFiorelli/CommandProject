@@ -61,24 +61,24 @@ function Products({ navigation, route }: Props) {
             <View style={globalStyle.header}>
                 <View style={{ alignItems: "flex-start" }}>
                     <Pressable style={globalStyle.buttonText} onPress={() => navigation.openDrawer()}>
-                        <AntDesign name="filter" size={24} />
-                        <Text>Filtres</Text>
+                        <AntDesign name="filter" size={24} color={"white"} />
+                        <Text style={{color: "white"}}>Filtres</Text>
                     </Pressable>
                 </View>
                 <View style={{ justifyContent: "center"}}>
-                    <Text style={{fontSize: 20}}>{ route.name }</Text>
+                    <Text style={{fontSize: 20, color: "white"}}>{ route.name }</Text>
                 </View>
                 <View style={{ alignItems: 'flex-end' }}>
                     <Pressable style={[globalStyle.buttonText, {position: "relative"}]} onPress={() => navigation.navigate("Orders")}>
                         {shoppingCart && shoppingCart.reduce((partialSum, p) => partialSum + p.quantity, 0) > 0 &&
                             <View style={{ position: "absolute", aspectRatio: 1/1, height: 20, right: -7, top: -7, borderRadius: 100, backgroundColor: "#FF0037", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                <Text style={{ fontSize: 14}}>
+                                <Text style={{ fontSize: 14, color: "white"}}>
                                     {shoppingCart.reduce((partialSum, p) => partialSum + p.quantity, 0) > 9 ? "+9" : shoppingCart.reduce((partialSum, p) => partialSum + p.quantity, 0)}
                                 </Text>
                             </View>
                         }
-                        <MaterialIcons name="shopping-cart" size={24} />
-                        <Text>Panier</Text>
+                        <MaterialIcons name="shopping-cart" size={24} color={"white"} />
+                        <Text style={{color: "white"}}>Panier</Text>
                     </Pressable>
                 </View>
 
@@ -90,8 +90,8 @@ function Products({ navigation, route }: Props) {
                         <View style={defaultStyle.productContainer }>
                             {b.product.image && <Image style={{ width: 200, marginVertical: 8 }} source={{ uri: `${server}${b.product.image}` }} />}
                             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                                <Text>{b.product.name}</Text>
-                                <Text>{b.product.price.$numberDecimal} €</Text>
+                                <Text style={{color: "white"}}>{b.product.name}</Text>
+                                <Text style={{color: "white"}}>{b.product.price.$numberDecimal} €</Text>
                             </View>
                         </View>
                     </Pressable>
@@ -102,13 +102,13 @@ function Products({ navigation, route }: Props) {
                     <Pressable>
                         <View style={[globalStyle.mainBorder, {backgroundColor: "#202020", padding: 8}]}>
                             {selectItem.image && <Image style={{ width: 200, height: 150 }} source={{ uri: `${server}${selectItem.image}` }} />}
-                            <Text style={{textAlign: "center", marginVertical: 8}}>{selectItem.name}</Text>
-                            <Text style={{textAlign: "center"}}>{selectItem.price.$numberDecimal} €</Text>
+                            <Text style={{textAlign: "center", marginVertical: 8, color: "white"}}>{selectItem.name}</Text>
+                            <Text style={{textAlign: "center", color: "white"}}>{selectItem.price.$numberDecimal} €</Text>
                         </View>
                         <View style={{marginTop: 16, display: "flex", flexDirection: "row", justifyContent: "center"}}>
                             <Pressable style={globalStyle.buttonText} onPress={() => { updateShoppingCart(1) }}>
-                                <Fontisto name="shopping-basket-add" size={24} />
-                                <Text>Commander</Text>
+                                <Fontisto name="shopping-basket-add" size={24} color={"white"} />
+                                <Text style={{color: "white"}}>Commander</Text>
                             </Pressable>
                         </View>
                     </Pressable>
