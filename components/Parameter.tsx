@@ -37,25 +37,10 @@ function Parameter({ navigation }) {
             </View>
             {user &&
                 <View>
-                    <View>
-                        <Text style={{ fontSize: 32, marginLeft: 16 }}>Votre profil</Text>
-                        <Text>Email : {user.email}</Text>
-                        <Text>Prénom : {user.firstname}</Text>
-                        <Text>Nom : {user.lastname}</Text>
-                    </View>
-                    <View style={{ marginTop: 32}}>
-                        <Text style={{ fontSize: 32, marginLeft: 16 }}>modifier</Text>
-                        <View style={{ display: "flex", alignItems: "center"}}>
-                            <Pressable style={globalStyle.buttonTextHorizontal}>
-                                <Text style={{ marginRight: 16}}>Changer de mot de passe</Text>
-                                <MaterialCommunityIcons name="lock-reset" size={24} />
-                            </Pressable>
-                            <Pressable style={globalStyle.buttonTextHorizontal}>
-                                <Text style={{ marginRight: 16}}>Changer d'adresse email</Text>
-                                <MaterialCommunityIcons name="email-edit" size={24} />
-                            </Pressable>
-                        </View>
-                    </View>
+                    <Text style={{ fontSize: 32, marginLeft: 16 }}>Votre profil</Text>
+                    <Text>Email : {user.email}</Text>
+                    <Text>Prénom : {user.firstname}</Text>
+                    <Text>Nom : {user.lastname}</Text>
                 </View>
             }
         </View>

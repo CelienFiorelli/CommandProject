@@ -7,7 +7,7 @@ import globalStyle from "../styles/globalStyle";
 import dateFormat from "dateformat";
 
 function Home(props) {
-    const { token } = useContext(UserContext);
+    const { token, user } = useContext(UserContext);
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
@@ -36,10 +36,18 @@ function Home(props) {
     return (
         <View>
             <Text>Accueil</Text>
-            <View>
+            <ScrollView>
+                {user &&
+                <View style={{ marginTop: 24}}>
+                    <Text style={{ fontSize: 24, marginLeft: 16}}>Points de fidélité</Text>
+                    <View style={[globalStyle.mainBorder, { backgroundColor: "#202020", margin: 4, padding: 8 }]}>
+                        <Text style={{ textAlign: "center"}}>Vous disposez de {user.fidelity} points</Text>
+                    </View>
+                </View>    
+                }
                 {token && orders.length > 0 &&
                     <View style={{ marginTop: 24}}>
-                        <Text style={{ fontSize: 24, marginLeft: 8}}>Etat de {orders.length == 1 ? "votre commande" : "vos commandes"}</Text>
+                        <Text style={{ fontSize: 24, marginLeft: 16}}>Etat de {orders.length == 1 ? "votre commande" : "vos commandes"}</Text>
                         {orders.map(o =>
                             <View key={o._id} style={[globalStyle.mainBorder, { backgroundColor: "#202020", margin: 4, padding: 8 }]}>
                                 <View style={{ backgroundColor: "#202020", marginBottom: 8 }}>
@@ -53,15 +61,16 @@ function Home(props) {
                                 </View>
                                 <View style={{borderTopColor: "#009E27", borderTopWidth: 1, marginTop: 12, paddingTop: 8}}>
                                     {Object.entries(productGroupBy(o.products)).map(p => 
-                                        <View key={p[0]}>
-                                            <Text> - {p[1].name}    x{p[1].quantity}</Text>
+                                        <View key={p[0]} style={{display: "flex", flexDirection: "row", width: "60%", justifyContent: "space-between"}}>
+                                            <Text> - {p[1].name}</Text>
+                                            <Text>x{p[1].quantity}</Text>
                                         </View>    
                                     )}
                                 </View>
                             </View>
                         )}
                     </View>}
-            </View>
+            </ScrollView>
         </View>
     );
 }
