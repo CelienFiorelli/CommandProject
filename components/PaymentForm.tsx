@@ -16,11 +16,16 @@ function PaymentForm({ amount, setDisplay }) {
         card: null,
         expiration_card: null,
         crypto: null,
-        fidelity: null,
+        fidelity: "0",
     });
 
     const submit = async () => {
-        await createPayment(token, price, formField.card, formField.expiration_card, formField.crypto);
+        if (!token || Object.values(formField).filter(v => v == null).length) {
+            console.log("ok");
+            
+            return
+        }
+        await createPayment(token, formField.fidelity, formField.card, formField.expiration_card, formField.crypto);
         setDisplay(false)
         remove();
     }
@@ -39,7 +44,7 @@ function PaymentForm({ amount, setDisplay }) {
             setFormField({...formField, fidelity: maxFidelity.toFixed(0)})
             pointUse = maxFidelity.toString();
         }
-
+        
         if (!parseInt(pointUse)) return setPrice(amount);
         if (parseInt(pointUse) == maxFidelity) return setPrice(0);
         setPrice((amount - parseInt(pointUse) / 7).toFixed(2));

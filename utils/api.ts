@@ -94,9 +94,9 @@ export const updateRole = async (adminToken: string, userId: string, role: strin
     }
 }
 
-export const createPayment = async (token: string, amount: any, card: Number, expiration_card: string, crypto: Number) => {
+export const createPayment = async (token: string, fidelity: any, card: Number, expiration_card: string, crypto: Number) => {
     try {
-        await axios.post(server + '/payment', null, {params: {token: token, card: card, expiration_card: expiration_card, amount: amount, crypto: crypto}});
+        await axios.post(server + '/payment', null, {params: {token: token, card: card, expiration_card: expiration_card, fidelity: fidelity, crypto: crypto}});
     } catch (error) {
         console.log(error);
     }
