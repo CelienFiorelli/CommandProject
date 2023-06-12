@@ -2,8 +2,8 @@ import axios from "axios";
 
 
 // const server = "http://192.168.179.170:5000";
-// const server = "http://192.168.43.170:5000";
-const server = "http://192.168.0.140:5000"; 
+const server = "http://192.168.43.170:5000";
+// const server = "http://192.168.0.140:5000";
 
 type ProductsAPIParams = Promise<any[] | null>;
 
@@ -30,7 +30,8 @@ export const getAllProducts = async (): AllProductsAPIParams => {
 export const login = async (email: String, password: String) => {
     try {
         const data = await axios.get(server + '/login', {params: {email: email, password: password}});
-        return data.data.token;
+        if (data && data.data.status < 400) return data.data.token;
+        return null;
     } catch (error) {
         console.log(error);
     }

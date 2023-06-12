@@ -6,6 +6,7 @@ import globalStyle from "../styles/globalStyle";
 import { StyleSheet } from "react-native";
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import { Image } from "react-native";
+import dateFormat from 'dateformat';
 
 function RestorerOrder(props) {
     const { token } = useContext(UserContext);
@@ -33,10 +34,12 @@ function RestorerOrder(props) {
                 <View style={[globalStyle.mainBorder, {backgroundColor: "#202020", padding: 8, margin: 8}]}>
                     <View style={{backgroundColor: "#202020", display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: 8}}>
                         <Text>{o.username}</Text>
-                        <Text>{o.creation_date}</Text>
+                        <Text>{dateFormat(o.creation_date, "dd/mm/yyyy H:MM:ss")}</Text>
                     </View>
                     <View style={{backgroundColor: "black", borderRadius: 6, position: "relative"}}>
-                        <Text style={{ fontSize: 12, height: 12, lineHeight: 13, position: "absolute", left: "50%", color: "white", zIndex: 20}}>{calcPercent(o)}%</Text>
+                        <View style={{ width: 100, height: 12, position: "absolute", left: "50%", transform: [{translateX: -50}], zIndex: 20, display: "flex", alignItems: "center", justifyContent: "center"}}>
+                            <Text style={{ fontSize: 12, height: 12, lineHeight: 13, zIndex: 20}}>{calcPercent(o) == 100 ? "Terminé" : `${calcPercent(o)}%` }</Text>
+                        </View>
                         <View style={{ backgroundColor: "#009E27", width: `${calcPercent(o)}%`, height: 12, borderRadius: 6, display: "flex", alignItems: "center"}}></View>
                     </View>
                 </View>

@@ -33,20 +33,24 @@ function UserProvider({children}): JSX.Element {
     
     const register = async (email: string, password: string, firstname: string, lastname: string): Promise<string> => {
         const token_ = await registerUser(email, password, firstname, lastname);
-        await AsyncStorage.setItem("token", token_)
-        setToken(token_)
+        if (token_) {
+            await AsyncStorage.setItem("token", token_)
+            setToken(token_)
+        }
         return token_
     }
+    
     const login = async (email: string, password: string): Promise<string> => {
         const token_ = await loginUser(email, password);
-        await AsyncStorage.setItem("token", token_)
-        setToken(token_)
-
-        const fetchUser = await getUser(token_);
-        setUser(fetchUser);
-        
+        if (token_) {
+            await AsyncStorage.setItem("token", token_)
+            setToken(token_)
+            const fetchUser = await getUser(token_);
+            setUser(fetchUser);
+        }
         return token_
     }
+
     const logout = async () => {
         await AsyncStorage.removeItem('token');
         setToken(null)

@@ -19,14 +19,17 @@ function Account({ navigation }) {
         lastname: null,
         firstname: null,
     });
+    const [error, setError] = useState(null);
 
     const sendLogin = async () => {
+        let token = null;
         if (isRegister) {
-            await register(formField.email, formField.password, formField.firstname, formField.lastname);
+            token = await register(formField.email, formField.password, formField.firstname, formField.lastname);
         } else {
-            await login(formField.email, formField.password);
+            token = await login(formField.email, formField.password);
         }
-        return navigation.navigate("Home")
+        if (token) return navigation.navigate("Home")
+        setError("Mot de passe ou Email invalide");
     }
 
     return (
@@ -42,7 +45,9 @@ function Account({ navigation }) {
                         </View>
                     }
                     <TextInput placeholder="Mot de passe" autoCapitalize="none" secureTextEntry={true} style={defaultStyle.textInput} onChangeText={(text) => setFormField({...formField, password: text})}/>
-
+                    
+                    {error && <Text style={{marginBottom: 24, textAlign: "center", color: "red"}}>{error}</Text>}
+                    
                     <View style={{ alignItems: "center" }}>
                         <Pressable style={defaultStyle.button} onPress={() => sendLogin()}>
                             <Text>{isRegister ? "Inscription" : "Connexion"}</Text>
