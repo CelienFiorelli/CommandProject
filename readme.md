@@ -1,6 +1,7 @@
 # Mise en place du backend
 
-Une fois le repo cloné, faire un `npm i` pour récuperer toute les dépendances du projets
+Une fois le repo cloné avec `git clone https://github.com/CelienFiorelli/CommandProject.git`
+Faire un `npm i` pour récuperer toute les dépendances du projets
 
 ## Variable
 
