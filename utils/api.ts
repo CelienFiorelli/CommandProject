@@ -1,9 +1,7 @@
 import axios from "axios";
 
 
-// const server = "http://192.168.40.170:5000";
 const server = "http://192.168.43.170:5000";
-// const server = "http://192.168.0.140:5000";
 
 type ProductsAPIParams = Promise<any[] | null>;
 
