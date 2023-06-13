@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Pressable, Text, StyleSheet, View, Button, Image, ScrollView } from "react-native";
+import { Pressable, Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import { RouteProp } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { server, getProducts, updateShoppingCart } from "../utils/api";
+import { server, getProducts } from "../utils/api";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { UserContext } from "./UserProvider";
 import Toast from 'react-native-toast-message';

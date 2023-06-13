@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { UserContext } from "./UserProvider";
 import globalStyle from "../styles/globalStyle";

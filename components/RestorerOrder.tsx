@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
-import { getOrders, getUsers, server, updateOrdersStatus, updateRole } from "../utils/api";
+import { getOrders, server, updateOrdersStatus } from "../utils/api";
 import { UserContext } from "./UserProvider";
 import globalStyle from "../styles/globalStyle";
 import { StyleSheet } from "react-native";

@@ -1,14 +1,6 @@
 import { useState, createContext, useEffect, useContext } from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getShoppingCartItems, login as loginUser, registerUser, updateShoppingCart } from "../utils/api";
+import { getShoppingCartItems, updateShoppingCart } from "../utils/api";
 import { UserContext } from "./UserProvider";
-
-interface ShoppingCartContextInterface {
-    token: string | null;
-    login: (email: string, password: string) => Promise<string>;
-    logout: () => void;
-    register: (email: string, password: string, firstname: string, lastname: string) => Promise<string>;
-}
 
 export const ShoppingCartContext = createContext<any | null>(null);
 

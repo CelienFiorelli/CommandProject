@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { getUser } from "../utils/api";
 import { UserContext } from "./UserProvider";
 import Ionicons from 'react-native-vector-icons/Ionicons';

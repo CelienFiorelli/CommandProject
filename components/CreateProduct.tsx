@@ -23,7 +23,11 @@ function CreateProduct({route, navigation}: any) {
     const displayImagePicker = async () => {
         const response = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (response.granted) {
-            const result = await ImagePicker.launchImageLibraryAsync({allowsEditing: true, selectionLimit: 1, mediaTypes: ImagePicker.MediaTypeOptions.Images});
+            const result = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                selectionLimit: 1,
+                mediaTypes: ImagePicker.MediaTypeOptions.Images
+            });
             if (!result && result.assets[0].uri.split('.')[result.assets[0].uri.split('.').length - 1] != "png") return;
             
             setImagePreview({

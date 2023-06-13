@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { getShoppingCartItems, updateShoppingCart } from "../utils/api";
-import { UserContext } from "./UserProvider";
 import { ScrollView } from "react-native-gesture-handler";
 import { server } from "../utils/api";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -25,7 +23,7 @@ function Orders({ navigation }) {
                     <Text style={{fontSize: 20, color: "white"}}>Votre commande</Text>
                 </View>
                 <View>
-                    <Pressable style={globalStyle.buttonText} onPress={() => setDisplayPayment(true)}>
+                    <Pressable style={globalStyle.buttonText} onPress={() => shoppingCart.reduce((partialSum, p) => partialSum + p.product.price.$numberDecimal * p.quantity, 0) != 0 && setDisplayPayment(true)}>
                         <Ionicons name="card-outline" size={24} color={"white"} />
                         <Text style={{color: "white"}}>{shoppingCart && shoppingCart.reduce((partialSum, p) => partialSum + p.product.price.$numberDecimal * p.quantity, 0).toFixed(2)} €</Text>
                     </Pressable>
