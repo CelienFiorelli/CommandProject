@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { UserContext } from "./UserProvider";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { getUser } from "../utils/api";

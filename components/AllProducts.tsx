@@ -27,7 +27,7 @@ function AllProducts({ navigation, route }: Props) {
     const [loading, setLoading]: [boolean, React.Dispatch<any>] = useState(products == null);
 
     const [selectItem, setSelectItem] = useState(null);
-    const { token } = useContext(UserContext);
+    const { token, user } = useContext(UserContext);
     const { shoppingCart, order } = useContext(ShoppingCartContext);
     
     useEffect(() => {
@@ -89,7 +89,15 @@ function AllProducts({ navigation, route }: Props) {
                 <ScrollView>
                     {products && Object.entries(products).filter(t => t[1].length).map(t =>
                         <View key={t[0]} style={{ marginBottom: 16 }}>
-                            <Text style={{ fontSize: 32, marginLeft: 16, color: "white" }}>{t[0]}</Text>
+                            <View style={{marginHorizontal: 16, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
+                                <Text style={{ fontSize: 32, color: "white" }}>{t[0]}</Text>
+                                {user && user.role == "restorer" &&
+                                    <Pressable onPress={() => navigation.navigate("CreateProduct", {type: t[0]} as any)} style={[globalStyle.buttonText, { display: "flex", flexDirection: "row", alignItems: "center"}]}>
+                                        <Text style={{ color: "white", marginRight: 4}}>Créer</Text>
+                                        <MaterialIcons name="playlist-add" size={24} color={"white"} />
+                                    </Pressable>
+                                }
+                            </View>
                             <ScrollView horizontal={true} style={[globalStyle.mainBorder, { backgroundColor: "#202020", marginHorizontal: 8 }]}>
                                 {t[1].map(p =>
                                     <Pressable key={p._id} onPress={() => setSelectItem(p.product)}>

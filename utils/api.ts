@@ -1,8 +1,8 @@
 import axios from "axios";
 
 
-// const server = "http://192.168.179.170:5000";
-const server = "http://192.168.43.170:5000";
+const server = "http://192.168.40.170:5000";
+// const server = "http://192.168.43.170:5000";
 // const server = "http://192.168.0.140:5000";
 
 type ProductsAPIParams = Promise<any[] | null>;
@@ -126,7 +126,27 @@ export const updateOrdersStatus = async (restorerToken: string, orderId: string,
     try {
         const data = await axios.post(server + '/update/status/orders', null, {params: {token: restorerToken, orderId: orderId, status: status }});
         if (data.data.status == 200) return data.data.data
-        else null
+        return null
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const uploadProduct = async (restorerToken: string, type: string, name: string, price: Number, image: FormData) => {
+    const endpoint_type = {
+        Burgers: "burger",
+        Menus: "menu",
+        Boissons: "drink"
+    }[type]
+    
+    try {
+        await axios.post(server + '/create/'+endpoint_type, image, {
+            params: {token: restorerToken, name: name, price: price, type: type },
+            headers: {
+                'accept': 'image/png',
+                'Content-Type': 'multipart/form-data',
+              }
+        });
     } catch (error) {
         console.log(error);
     }

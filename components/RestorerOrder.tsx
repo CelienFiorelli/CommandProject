@@ -50,7 +50,7 @@ function RestorerOrder(props) {
                                 <Text style={{color: "white"}}>{p.finish ? "Terminé": "A faire"}</Text>
                             </View>
                             <Text style={{color: "white"}}>{p.product.name}</Text>
-                            {p.product.image && <Image style={{ width: 200, height: 150 }} source={{ uri: `${server}${p.product.image}` }} />}
+                            {p.product.image && <Image style={{ width: 160, height: 150 }} source={{ uri: `${server}${p.product.image}` }} />}
                             <View style={{backgroundColor: "black", borderTopColor: "#009E27", borderTopWidth: 1, borderBottomLeftRadius: 6, borderBottomRightRadius: 6, width: "100%", marginTop: 16, display: "flex", alignItems: "center", paddingVertical: 8}}>
                                 <Pressable onPress={() => switchStatus(p._id, !p.finish)}>
                                     {p.finish ?

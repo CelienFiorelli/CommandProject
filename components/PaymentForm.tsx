@@ -5,7 +5,6 @@ import globalStyle from "../styles/globalStyle";
 import { TextInput } from "react-native-gesture-handler";
 import { createPayment } from "../utils/api";
 import { ShoppingCartContext } from "./ShoppingCartProvider";
-import { useNavigation } from "@react-navigation/native";
 
 function PaymentForm({ amount, setDisplay }) {
     const {token, user} = useContext(UserContext);
